@@ -1,6 +1,6 @@
 pipeline{
 	stages{
-		stage(git pull)
+		stage(git_pull)
 		{
 			sh 'git pull https://github.com/delta7-138/Gramophone.git'
 		}

@@ -6,9 +6,11 @@ const Schema = mongoose.Schema;
 const AlbumSchema = new Schema({
     name : String, 
     UPC : String, 
-    tracks : [mongoose.Types.ObjectId], 
+    tracks : [Schema.Types.ObjectId], 
     num_tracks : Number, 
-    album_type : String 
+    album_type : String, 
+    artist_name : String, 
+    artist_id : Schema.Types.ObjectId
 }); 
 
 module.exports = mongoose.model("Album" , AlbumSchema); 

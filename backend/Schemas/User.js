@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     name : String, 
-    email : mongoose.SchemaTypes.email, 
+    email : {type : String, index : {unique : true , dropDups : true}},  
     password : String 
 }); 
 

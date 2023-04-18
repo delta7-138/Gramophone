@@ -4,8 +4,8 @@
   "description": "music streaming/sharing platform",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
-    "start" : "nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,8 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mocha": "^10.2.0",
     "mongoose": "^7.0.3",
     "nodemon": "^2.0.22"
   }

@@ -200,7 +200,7 @@ function SignInForm(props)
     };
 
     return (
-        <div>
+        <>
             <form className='form' onSubmit={handleSubmit}>
                 <div className='control'>
                     <h1>Sign in</h1>
@@ -252,7 +252,7 @@ function SignInForm(props)
                 <button
                     className='btn block-cube block-cube-hover' 
                     type="submit"
-                    style={{top:"20px"}}
+                    style={{top:"20px", buttom:"10px"}}
                 >
                     <div className='bg-top'>
                         <div className='bg-inner'></div>
@@ -263,11 +263,13 @@ function SignInForm(props)
                     <div className='bg'>
                         <div className='bg-inner'></div>
                     </div>
-                    <div className='text'>Sign In</div>
+                    <div className='text'>
+                        Sign In
+                    </div>
                 </button>
             </form>
             {error && (<p>{error}</p>)}
-        </div>
+        </>
     );
 }
 
@@ -308,10 +310,10 @@ function SignInSignUpPage()
     // );
 
     return (
-        <div className='login-form'>
+        <div>
             {isLogged ? (<App Logout={handleLogout}/>
             ) : (
-                <>
+                <div className='login-form'>
                 <div className="signIn-Up-btns">
                     <button onClick={handleSignInClick}>Sign In</button>
                     <button onClick={handleSignUpClick}>Sign Up</button>
@@ -319,11 +321,11 @@ function SignInSignUpPage()
                 
                 <div id="signIn-Up-forms">
                     {showSignIn ? 
-                        (<SignInForm onSignUp={handleSignInClick}/>):
+                        (<SignInForm onSignIn={handleSignIn}/>):
                         (<SignUpForm onSignUp={handleSignUpClick}/>)
                     }
                 </div>
-                </>
+                </div>
             )}
             
         </div>

@@ -29,11 +29,23 @@ function SignUpForm(props)
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
         props.onSignUp()
         console.log("Press submit in signup");
         
         if(password === confirmPass)
         {
+            fetch('https://localhost:5000',
+                    {
+                        method: 'POST',
+                        mode: 'cors',
+                        body:JSON.stringify({
+                            "name" : name,
+                            "email" : username,
+                            "password" : password
+                        })
+                    }
+            )
             setUsername('');
             setName('');
             setPassword('');
@@ -53,13 +65,12 @@ function SignUpForm(props)
         <div>
             <form className='form' onSubmit={handleSubmit}>
                 {/* <h1>Sign up</h1> */}
-                <div className='control'>
+                <div>
                     <h1>Sign Up</h1>
                 </div>
 
                 <label>
-                    Name:
-
+                    <p>Name:</p>
                     <div className='control block-cube block-input'>
                         <input 
                             type="text" 
@@ -81,7 +92,7 @@ function SignUpForm(props)
 
                 </label>
                 <label>
-                    Username:
+                    <p>Username:</p>
                     <div className='control block-cube block-input'>
                         <input 
                             type="text" 
@@ -102,7 +113,7 @@ function SignUpForm(props)
                     </div>
                 </label>
                 <label>
-                    Password:
+                    <p>Password:</p>
                     <div className='control block-cube block-input'>
                         <input 
                             type="password" 
@@ -123,7 +134,7 @@ function SignUpForm(props)
                     </div>
                 </label>
                 <label>
-                    Confirm Password:
+                    <p>Confirm Password:</p>
                     <div className='control block-cube block-input'>
                         <input 
                             type="password" 
@@ -144,21 +155,21 @@ function SignUpForm(props)
                     </div>
                 </label>
                 <button
-                className='btn block-cube block-cube-hover' 
-                type="submit"
-                style={{top:"40px"}}
-            >
-                <div class='bg-top'>
-                    <div class='bg-inner'></div>
-                </div>
-                <div class='bg-right'>
-                    <div class='bg-inner'></div>
-                </div>
-                <div class='bg'>
-                    <div class='bg-inner'></div>
-                </div>
-                <div className='text'>Sign Up</div>
-            </button>
+                    className='btn block-cube block-cube-hover' 
+                    type="submit"
+                    style={{top:"20px"}}
+                >
+                    <div className='bg-top'>
+                        <div className='bg-inner'></div>
+                    </div>
+                    <div className='bg-right'>
+                        <div className='bg-inner'></div>
+                    </div>
+                    <div className='bg'>
+                        <div className='bg-inner'></div>
+                    </div>
+                    <div className='text'>Sign Up</div>
+                </button>
             </form>
             {error && (<p>{error}</p>)}
         </div>
@@ -190,72 +201,72 @@ function SignInForm(props)
 
     return (
         <div>
-        <form className='form' onSubmit={handleSubmit}>
-            <div className='control'>
-                <h1>Sign in</h1>
-            </div>
-            <label>
-                Username:
-            
-                <div className='control block-cube block-input'>
-                    <input 
-                        type="text" 
-                        value={username} 
-                        onChange={handleUsernameChange}
-                        placeholder='Email or Phone'
-                        required
-                    />
-                    <div className='bg-top'>
-                        <div className='bg-inner'></div>
-                    </div>
-                    <div className='bg-right'>
-                        <div className='bg-inner'></div>
-                    </div>
-                    <div className='bg'>
-                        <div className='bg-inner'></div>
-                    </div>
+            <form className='form' onSubmit={handleSubmit}>
+                <div className='control'>
+                    <h1>Sign in</h1>
                 </div>
-            </label>
-            <label style={{top:"15px"}}>
-                Password:
-                <div className='control block-cube block-input'>
-                    <input 
-                        type="password" 
-                        value={password} 
-                        onChange={handlePasswordChange}
-                        placeholder='Password'
-                        required
-                    />
-                    <div className='bg-top'>
-                        <div className='bg-inner'></div>
-                    </div>
-                    <div className='bg-right'>
-                        <div className='bg-inner'></div>
-                    </div>
-                    <div className='bg'>
-                        <div className='bg-inner'></div>
-                    </div>
-                </div>
+                <label>
+                    <p>Username:</p>
                 
-            </label>
-            <button
-                className='btn block-cube block-cube-hover' 
-                type="submit"
-                style={{top:"40px"}}
-            >
-                <div class='bg-top'>
-                    <div class='bg-inner'></div>
-                </div>
-                <div class='bg-right'>
-                    <div class='bg-inner'></div>
-                </div>
-                <div class='bg'>
-                    <div class='bg-inner'></div>
-                </div>
-                <div className='text'>Sign In</div>
-            </button>
-        </form>
-        {error && (<p>{error}</p>)}
+                    <div className='control block-cube block-input'>
+                        <input 
+                            type="text" 
+                            style={{background:"rgba(0,0,0,0.1)"}}
+                            value={username} 
+                            onChange={handleUsernameChange}
+                            placeholder='Email or Phone'
+                            required
+                        />
+                        <div className='bg-top'>
+                            <div className='bg-inner'></div>
+                        </div>
+                        <div className='bg-right'>
+                            <div className='bg-inner'></div>
+                        </div>
+                        <div className='bg'>
+                            <div className='bg-inner'></div>
+                        </div>
+                    </div>
+                </label>
+                <label >
+                    <p>Password:</p>
+                    <div className='control block-cube block-input'>
+                        <input 
+                            type="password" 
+                            value={password} 
+                            onChange={handlePasswordChange}
+                            placeholder='Password'
+                            required
+                        />
+                        <div className='bg-top'>
+                            <div className='bg-inner'></div>
+                        </div>
+                        <div className='bg-right'>
+                            <div className='bg-inner'></div>
+                        </div>
+                        <div className='bg'>
+                            <div className='bg-inner'></div>
+                        </div>
+                    </div>
+                </label>
+                <button
+                    className='btn block-cube block-cube-hover' 
+                    type="submit"
+                    style={{top:"20px"}}
+                >
+                    <div className='bg-top'>
+                        <div className='bg-inner'></div>
+                    </div>
+                    <div className='bg-right'>
+                        <div className='bg-inner'></div>
+                    </div>
+                    <div className='bg'>
+                        <div className='bg-inner'></div>
+                    </div>
+                    <div className='text'>Sign In</div>
+                </button>
+            </form>
+            {error && (<p>{error}</p>)}
         </div>
     );
 }
@@ -281,18 +292,42 @@ function SignInSignUpPage()
         setisLogged(false)
     }
 
+    // return (
+    //     <div>
+    //         {isLogged ? (<App Logout={handleLogout}/>
+    //         ):(
+    //             <div className='login-page'>
+    //                 <div className='toggle-buttons'>
+    //                     <button onClick={handleSignInClick}>Sign In</button>
+    //                     <button onClick={handleSignUpClick}>Sign Up</button>
+    //                 </div>
+    //                 {showSignIn ? (<SignInForm onSignIn={handleSignIn}/>) : (<SignUpForm onSignUp={handleSignUpClick}/>)}
+    //             </div>
+    //         )}
+    //     </div>
+    // );
+
     return (
-        <div>
+        <div className='login-form'>
             {isLogged ? (<App Logout={handleLogout}/>
-            ):(
-                <div className='login-page'>
+            ) : (
+                <>
+                <div className="signIn-Up-btns">
                     <button onClick={handleSignInClick}>Sign In</button>
                     <button onClick={handleSignUpClick}>Sign Up</button>
-                    {showSignIn ? (<SignInForm onSignIn={handleSignIn}/>) : (<SignUpForm onSignUp={handleSignUpClick}/>)}
                 </div>
+                
+                <div id="signIn-Up-forms">
+                    {showSignIn ? 
+                        (<SignInForm onSignUp={handleSignInClick}/>):
+                        (<SignUpForm onSignUp={handleSignUpClick}/>)
+                    }
+                </div>
+                </>
             )}
+            
         </div>
-    );
+    )
 }
 
 export default SignInSignUpPage;

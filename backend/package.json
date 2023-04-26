@@ -20,9 +20,11 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "gridfile": "^1.1.4",
     "jsonwebtoken": "^9.0.0",
     "mocha": "^10.2.0",
     "mongoose": "^7.0.3",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.22"
   }
 }

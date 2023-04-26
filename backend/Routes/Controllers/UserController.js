@@ -1,5 +1,6 @@
 const User = require("../../Schemas/User.js")
 const jwt = require("jsonwebtoken"); 
+const {verifyToken} = require("./Validate.js"); 
 
 require('dotenv').config()
 
@@ -65,13 +66,39 @@ const loginUser = ((req , res) => {
     .catch(err => res.status(500).json({err}))
 }); 
 
+const jwtSignIn = ((req , res) => {
+    verifyToken(req.body.accessToken)
+    .then(token_id => {
+        console.log(token_id.id)
+        User.findById(token_id.id)
+        .then(user => {
+            res.status(200).json({
+                id : user._id, 
+                username : user.name, 
+                email : user.email, 
+                accessToken : req.body.accessToken
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                message : "user not found",
+                error : err
+            })
+        })
+    })
+
+    .catch(err => {
+        res.status(500).json({err})
+    })
+})
 
 module.exports = {
     getUsers, 
     getUserByEmail, 
     getUsersByName, 
     createUser, 
-    loginUser
+    loginUser, 
+    jwtSignIn
 }; 
 
 

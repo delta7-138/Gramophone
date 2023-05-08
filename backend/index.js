@@ -1,44 +1,15 @@
-<<<<<<< HEAD
-require('dotenv').config(); 
-
-const express = require("express"); 
-=======
-/**
- * TODO : 
- * 
- * EPOCH ONE 
- * 1. Setup routing
- * 2. Setup unit testing using mocha
- * 3. Setup Github CI
- * 4. JWT authentication, user registering and login (USER CREATION)
- * 
- * EPOCH TWO    
- * 1. Adding Uploading and Streaming capabilities (TRACK CREATION)
- * 2. Playlist/Album creation (ALBUM CREATION)
- * 3. Adding Searching capabilities
- * 
- * EPOCH THREE
- * Deployment 
- */
-
-
 require('dotenv').config(); 
 
 const express = require("express"); 
 const bodyParser = require('body-parser')
->>>>>>> 72541625aa79d4e6069f471486a3a8fae69e4cd4
 const mongoose = require("mongoose"); 
 const database_uri = process.env.CONNECTION_URI; 
+const cors = require("cors"); 
 
 const app = express(); 
 mongoose.connect(database_uri); 
 const database = mongoose.connection; 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 72541625aa79d4e6069f471486a3a8fae69e4cd4
 //connect database 
 database.on('error' , (error) => {
     console.log(error)
@@ -49,9 +20,8 @@ database.once('connected' , (connected) => {
 }); 
 
 //setup express middleware 
+app.use(cors()); 
 app.use(express.json()); 
-<<<<<<< HEAD
-=======
 app.use(bodyParser.urlencoded({
     extended: true
   }));
@@ -59,13 +29,7 @@ app.use(bodyParser.urlencoded({
 
 const {UserRouter} = require("./Routes/UserRoute"); 
 app.use('/api/users/' , UserRouter); 
->>>>>>> 72541625aa79d4e6069f471486a3a8fae69e4cd4
 
-app.listen(3000 , () =>{
-    console.log("Server listening on 3000")
+app.listen(5000 , () =>{
+    console.log("Server listening on 5000")
 }); 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 72541625aa79d4e6069f471486a3a8fae69e4cd4

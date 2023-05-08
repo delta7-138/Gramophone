@@ -1,0 +1,24 @@
+.homepage-container {
+    /* background-color: black; */
+    display: flex;
+    height: 100vh;
+    
+    background-color: #121212;
+}
+
+.item1 {
+    width: 25%;
+    height: 85%;
+    border: 1px solid #fff;
+    background-color: rgba(34, 13, 63, 0.671);
+}
+
+.item2 {
+    width: 75%;
+    height: 85%;
+    border: 1px solid #fff;
+    background-color: rgba(75, 29, 9, 0.1);
+}
+.item3{
+    color: white;
+}

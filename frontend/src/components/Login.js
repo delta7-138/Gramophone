@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState }from 'react';
+import axios from 'axios';
 import './login.css'
-import App from '/home/prem/Desktop/Major_Project/Gramophone/frontend/src/App.js';
+import App from '../App.js';
 
 function SignUpForm(props)
 {
+    const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-
-    const [name, setName] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
 
+    const [error, setError] = useState(null);
+
+    const [message, setMessage] = useState('');
+    
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     };
@@ -27,30 +30,57 @@ function SignUpForm(props)
         setConfirmPass(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+
+    useEffect(() => {
+        console.log("Running Message...")
+        if (message && message !== '') {
+            console.log("This is me printing")
+            console.log(message);
+            props.onSignUp()
+        }
+    }, [message,props])
+
+    const f = useCallback(message => {
+        console.log("Running Callback") 
+        setMessage({
+            ...message
+        })
+        console.log("Set Message")
+        console.log(message)
+    }, []);
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        props.onSignUp()
-        console.log("Press submit in signup");
-        
+
         if(password === confirmPass)
         {
-            fetch('https://localhost:5000',
-                    {
-                        method: 'POST',
-                        mode: 'cors',
-                        body:JSON.stringify({
-                            "name" : name,
-                            "email" : username,
-                            "password" : password
-                        })
-                    }
-            )
+            console.log("Creating the user");
+
+            axios.post('http://localhost:5000/api/users/signUp', 
+            {
+                name : name,
+                email : username, 
+                password : password 
+            }, {
+                headers : {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }})
+            .then(res => {
+                console.log(res.data)
+                f(res.data)
+            })
+
+            // console.log("Here is the response")
+            // console.log(message)
+
             setUsername('');
             setName('');
             setPassword('');
             setConfirmPass('');
+            
         }
+
         else
         {
             setPassword('');
@@ -181,6 +211,8 @@ function SignInForm(props)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const [message, setMessage] = useState('');
+
     const [error, setError] = useState(null);
 
     const handleUsernameChange = (event) => {
@@ -191,12 +223,43 @@ function SignInForm(props)
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    useEffect(() => {
+        console.log("Running Message...")
+        if (message && message !== '') {
+            console.log("This is me printing")
+            console.log(message);
+            props.onSignIn()
+        }
+    }, [message,props])
+
+    const f = useCallback(message => {
+        console.log("Running Callback") 
+        setMessage({
+            ...message
+        })
+        console.log("Set Message")
+        console.log(message)
+    }, []);
+
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        props.onSignIn();
-        console.log("Press submit in signIN");
+        console.log("Logging In");
+
+        axios.post('http://localhost:5000/api/users/login', 
+        {
+            email : username,
+            password : password 
+        }, {
+            headers : {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }})
+        .then(res => {
+            console.log(res.data)
+            f(res.data)
+        })
+        .then(err => console.log(err))
+
         setError(null);
-        // Handle sign in logic here
     };
 
     return (
@@ -206,7 +269,7 @@ function SignInForm(props)
                     <h1>Sign in</h1>
                 </div>
                 <label>
-                    <p>Username:</p>
+                    Username:
                 
                     <div className='control block-cube block-input'>
                         <input 
@@ -294,37 +357,22 @@ function SignInSignUpPage()
         setisLogged(false)
     }
 
-    // return (
-    //     <div>
-    //         {isLogged ? (<App Logout={handleLogout}/>
-    //         ):(
-    //             <div className='login-page'>
-    //                 <div className='toggle-buttons'>
-    //                     <button onClick={handleSignInClick}>Sign In</button>
-    //                     <button onClick={handleSignUpClick}>Sign Up</button>
-    //                 </div>
-    //                 {showSignIn ? (<SignInForm onSignIn={handleSignIn}/>) : (<SignUpForm onSignUp={handleSignUpClick}/>)}
-    //             </div>
-    //         )}
-    //     </div>
-    // );
-
     return (
-        <div>
+        <div className='login-page'>
             {isLogged ? (<App Logout={handleLogout}/>
             ) : (
                 <div className='login-form'>
-                <div className="signIn-Up-btns">
-                    <button onClick={handleSignInClick}>Sign In</button>
-                    <button onClick={handleSignUpClick}>Sign Up</button>
-                </div>
-                
-                <div id="signIn-Up-forms">
-                    {showSignIn ? 
-                        (<SignInForm onSignIn={handleSignIn}/>):
-                        (<SignUpForm onSignUp={handleSignUpClick}/>)
-                    }
-                </div>
+                    <div className="signIn-Up-btns">
+                        <button onClick={handleSignInClick}>Sign In</button>
+                        <button onClick={handleSignUpClick}>Sign Up</button>
+                    </div>
+                    
+                    <div>
+                        {showSignIn ? 
+                            (<SignInForm onSignIn={handleSignIn}/>):
+                            (<SignUpForm onSignUp={handleSignInClick}/>)
+                        }
+                    </div>
                 </div>
             )}
             

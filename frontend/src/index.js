@@ -1,17 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-// import App from './App';
-import Login from './components/Login';
-// import Homepage from './components/Homepage';
+// import Login from './components/Login';
+import Homepage from './components/Homepage';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <Homepage /> */}
-    <Login />
-    {/* <Test/> */}
+    <Homepage />
+    {/* <Login /> */}
   </React.StrictMode>
 );
 

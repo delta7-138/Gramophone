@@ -1,0 +1,140 @@
+.gramophone {
+    display: flex;
+    align-items: center;
+}
+
+h1 {
+    font-size: 25px;
+    margin: 20px 0px 0px 30px;
+    font-weight: 500;
+}
+
+p {
+    font-size: 10px;
+}
+
+.playlists {
+
+    margin: 40px 0px 0px 30px;
+}
+
+.playlists h4 {
+    font-size: 17px;
+    font-weight: 400;
+    padding-bottom: 10px;
+    color: #4c5262;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: .3s  linear;
+}
+
+.playlists h4:hover {
+    color: white;
+}
+
+.playlists h4 span {
+    position: relative;
+    margin-right: 35px;
+}
+
+.playlists h4 span::before {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border: 2px solid #4c5262;
+    border-radius:  50%;
+    top: -4px;
+    transition: .3s linear;
+}
+
+.playlists h4:hover span::before {
+    border: 2px solid #fff;
+}
+
+.playlists h4 .music-note {
+    display: None;
+}
+
+.playlists .active {
+    color: #36e2ec;
+}
+
+.playlists .active span {
+    display: none;
+}
+
+.playlists .active .music-note {
+    display: flex;
+    margin-right: 20px;
+}
+
+.songs-list {
+    width: 100%;
+    height: 520px;
+    /* border: 1px solid #fff; */
+    margin-top: 40px;
+    overflow: auto;
+}
+
+.songs-list::-webkit-scrollbar {
+    width: 3px;
+    background-color: #19022ded;
+}
+
+.songs-list::-webkit-scrollbar-thumb {
+    background-color: #4c5262;
+    border-radius: 2px;
+}
+
+.songs-list li {
+    height: 80px;
+    list-style: none;
+    position: relative;
+    padding: 0px 0px 0px 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: .3s linear;
+}
+
+.songs-list li:hover {
+    background-color: rgba(105, 105, 105, .1);
+}
+
+.songs-list li span {
+    font-size: 30px;
+    font-weight: 600;
+    color: #4c5262;
+
+}
+
+.songs-list li img {
+    width: 30px;
+    height: 30px;
+    margin-left: 25px; 
+
+}
+
+.songs-list li h5 {
+    font-size: 20px;
+    margin-left: 15px;
+    width: 55%;
+    /* border: 1px solid #fff; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.songs-list li .artist-name {
+    font-size: 15px;
+    color: #4c5262;
+    margin-top: 7px;
+}
+
+.songs-list li  .song-play-btn {
+    position: absolute;
+    right: 15px;
+}

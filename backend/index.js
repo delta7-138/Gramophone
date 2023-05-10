@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 require('dotenv').config(); 
 
-const express = require("express"); 
-=======
+// const express = require("express"); 
 /**
  * TODO : 
  * 
@@ -25,8 +23,8 @@ const express = require("express");
 require('dotenv').config(); 
 
 const express = require("express"); 
+const cors = require("cors")
 const bodyParser = require('body-parser')
->>>>>>> 72541625aa79d4e6069f471486a3a8fae69e4cd4
 const mongoose = require("mongoose"); 
 const database_uri = process.env.CONNECTION_URI; 
 
@@ -34,11 +32,8 @@ const app = express();
 mongoose.connect(database_uri); 
 const database = mongoose.connection; 
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 72541625aa79d4e6069f471486a3a8fae69e4cd4
 //connect database 
 database.on('error' , (error) => {
     console.log(error)
@@ -49,9 +44,21 @@ database.once('connected' , (connected) => {
 }); 
 
 //setup express middleware 
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    // res.header(
+    //   "Access-Control-Allow-Headers",
+    //   "Origin, X-Requested-With, Content-Type, Accept"
+    // );
+    next();
+  });
+
+// var corsOptions = {
+//     origin: 'https://localhost:5000',
+//     optionsSuccessStatus: 200 // For legacy browser support
+// }
+app.use(cors())
 app.use(express.json()); 
-<<<<<<< HEAD
-=======
 app.use(bodyParser.urlencoded({
     extended: true
   }));
@@ -59,13 +66,7 @@ app.use(bodyParser.urlencoded({
 
 const {UserRouter} = require("./Routes/UserRoute"); 
 app.use('/api/users/' , UserRouter); 
->>>>>>> 72541625aa79d4e6069f471486a3a8fae69e4cd4
 
-app.listen(3000 , () =>{
-    console.log("Server listening on 3000")
+app.listen(5000 , () =>{
+    console.log("Server listening on 5000")
 }); 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 72541625aa79d4e6069f471486a3a8fae69e4cd4

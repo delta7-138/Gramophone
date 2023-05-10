@@ -1,4 +1,5 @@
 import "./playlist.css"
+import myImg from '../images/login_background.jpg'
 import {BsMusicNote, BsPlayCircleFill} from 'react-icons/bs'
 import {IconContext} from 'react-icons'
 
@@ -8,11 +9,11 @@ function Playlist()
 
     for(let i = 1; i < 9; i++ )
     {
-        songs.push({'title':'My Song'+i.toString(), 'artist':'artist'+i.toString()})
+        songs.push({'title':'My Song'+i.toString(), 'artist':'artist'+i.toString(), 'img':myImg})
     }
 
     return (
-        <>
+        <div className="playlist-side">
             <div className="gramophone">
                 <h1>Gramophone</h1>
                 <p>The OG way</p>
@@ -30,7 +31,7 @@ function Playlist()
                     <li className="song-item">
                         <span>{ index < 10 ? (index+1).toString().padStart(2,'0')
                                 : index+1}</span>
-                        <img src="" alt="" />
+                        <img src={item.img} alt="" />
                         <h5 className="song-title">
                             {item.title}<br/>
                             <div className="artist-name">{item.artist}</div>
@@ -42,7 +43,7 @@ function Playlist()
                 ))}
                 
             </div>
-        </>
+        </div>
     );
 }
 

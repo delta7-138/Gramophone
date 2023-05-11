@@ -1,6 +1,7 @@
 import "./homepage.css"
 import Playlist from "./Playlist";
 import SongPlayer from "./SongPlayer";
+import Menu from "./Menu";
 
 function Homepage()
 {
@@ -10,7 +11,7 @@ function Homepage()
                 <Playlist />
             </div>
             <div className="home-side">
-                
+                <Menu/>
             </div>
             <div className="song-player">
                 <SongPlayer />

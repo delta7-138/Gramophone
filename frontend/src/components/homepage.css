@@ -6,6 +6,7 @@
     grid-template-columns: 1fr 4fr;
     grid-template-rows: 7fr 1fr;
     background-color: #121212;
+    overflow: hidden;
     /* color: white; */
 }
 

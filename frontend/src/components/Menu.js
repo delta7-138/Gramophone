@@ -1,7 +1,7 @@
 import "./menu.css"
-import profile_pic from "../images/profile.png"
-import myImg from "../images/login_background.jpg"
-import artPic from "../images/blw.png"
+import profile_pic from "../assets/profile.png"
+import myImg from "../assets/login_background.jpg"
+import artPic from "../assets/blw.png"
 import { BsSearch, BsPlayCircleFill } from "react-icons/bs"
 import { AiOutlineCaretRight, AiOutlineCaretLeft } from "react-icons/ai"
 import { useState } from "react";
@@ -25,13 +25,38 @@ function Menu()
         setSearch(event.target.value);
     };
 
+    // popular songs scrolling
+    const songScrollRight = () => {
+        console.log("click works");
+        document.getElementById("ps").scrollLeft += 330;
+    };
+
+    const songScrollLeft = () => {
+        console.log("click works");
+        document.getElementById("ps").scrollLeft -= 330;
+    };
+    // ----------------------------------- end
+    
+    // popular artist scrolling
+    const artScrollRight = () => {
+        console.log("click works");
+        document.getElementById("pa").scrollLeft += 330;
+    };
+
+    const artScrollLeft = () => {
+        console.log("click works");
+        document.getElementById("pa").scrollLeft -= 330;
+    };
+    // ----------------------------------- end
+
+
     return (
         <div className="menu-side">
             <nav>
                 <ul>
-                    <li>Home<span></span></li>
-                    <li>My Library</li>
-                    <li>Downloads</li>
+                    <li key="home">Home<span></span></li>
+                    <li key="lib">My Library</li>
+                    <li key="downloads">Downloads</li>
                 </ul>
                 
                 <div className="search-bar">
@@ -60,13 +85,13 @@ function Menu()
                 <div className="H4">
                     <h4>Popular Songs</h4>
                     <div className="popular-btns">
-                        <AiOutlineCaretLeft />
-                        <AiOutlineCaretRight />
+                        <AiOutlineCaretLeft onClick={songScrollLeft}/>
+                        <AiOutlineCaretRight onClick={songScrollRight}/>
                     </div>
                 </div>
-                <div className="pop-songs">
+                <div id="ps" className="pop-songs">
                     {pop_songs.map((item,index) => (
-                        <li className="song-item">
+                        <li key={index} className="song-item">
                             <div className="song-img">
                                 <img src={item.img} alt="" />
                                 <div className="song-play-btn">
@@ -84,13 +109,13 @@ function Menu()
                     <div className="H4">
                         <h4>Popular Artists</h4>
                         <div className="popular-btns">
-                            <AiOutlineCaretLeft />
-                            <AiOutlineCaretRight />
+                            <AiOutlineCaretLeft  onClick={artScrollLeft}/>
+                            <AiOutlineCaretRight onClick={artScrollRight}/>
                         </div>
                     </div>
-                    <div className="artists">
+                    <div id ="pa" className="artists">
                         {pop_artists.map((item,index) => (
-                            <li className="song-item">
+                            <li key={item.name} className="song-item">
                                 <img src={item.img} alt="" />
                             </li>
                         ))}

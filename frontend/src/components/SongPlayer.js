@@ -1,5 +1,5 @@
 import "./songPlayer.css"
-import myImg from '../images/login_background.jpg'
+import myImg from '../assets/login_background.jpg'
 import { IconContext } from "react-icons";
 import {BsMusicNoteBeamed, BsPlusCircleFill} from "react-icons/bs"
 import {RxDownload} from "react-icons/rx"
@@ -12,7 +12,11 @@ function SongPlayer()
                             'img': myImg,
                             'title': 'Current Song',
                             'artist': 'Artist'
-                        };
+    };
+
+    // Controlling Music\
+    const music = new Audio();
+
     return (
         <div className="player">
             <div className="wave">

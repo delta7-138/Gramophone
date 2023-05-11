@@ -1,5 +1,5 @@
 import "./playlist.css"
-import myImg from '../images/login_background.jpg'
+import myImg from '../assets/login_background.jpg'
 import {BsMusicNote, BsPlayCircleFill} from 'react-icons/bs'
 import {IconContext} from 'react-icons'
 
@@ -28,7 +28,7 @@ function Playlist()
 
             <div className="songs-list">
                 {songs.map((item,index) => (
-                    <li className="song-item">
+                    <li key={index} className="song-item">
                         <span>{ index < 10 ? (index+1).toString().padStart(2,'0')
                                 : index+1}</span>
                         <img src={item.img} alt="" />

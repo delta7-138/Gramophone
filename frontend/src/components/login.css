@@ -3,7 +3,7 @@
 } */
   
 .login-page {
-    background-image: url('../images/login_background.jpg');
+    background-image: url('../assets/login_background.jpg');
     color: #fff;
     font-family: monospace, serif;
     letter-spacing: 0.05em;

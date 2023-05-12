@@ -15,7 +15,7 @@ pipeline {
         stage('Build and Test - Frontend') {
             steps {
                 // npm build, 'sh' specifies it is a shell command
-		bat 'cd frontend\'
+		bat 'cd frontend/'
                 bat 'npm i && npm test'
             }
         }

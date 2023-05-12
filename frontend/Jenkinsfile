@@ -15,7 +15,6 @@ pipeline {
         stage('Build and Test - Frontend') {
             steps {
                 // npm build, 'sh' specifies it is a shell command
-                sh 'cd frontend'
                 sh 'npm i && npm test'
             }
         }

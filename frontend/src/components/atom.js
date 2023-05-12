@@ -8,5 +8,5 @@ export const currentSongState = atom({
 
 export const currentPlaylistState = atom({
   key: 'currentPlaylistState',
-  default: null, // Initial value for current_playlist
+  default: {}, // Initial value for current_playlist
 });

@@ -9,7 +9,7 @@ import { MdArrowForwardIos , MdArrowBackIosNew, MdPlayArrow, MdPause } from "rea
 import { useState } from "react";
 
 import { useRecoilState } from 'recoil';
-import { currentPlaylistState } from './atom';
+import { currentSongState } from './atom';
 
 function SongPlayer()
 {
@@ -22,10 +22,10 @@ function SongPlayer()
 
     // React Hooks ----------------------------- START
     const [isPlaying, setisPlaying] = useState(false);
-    const [currentSong, setCurrentSong] = useRecoilState(currentPlaylistState);
-    // const changeSong = () => {
-    //     setCurrentSong(song);
-    // }
+    const [currentSong, setCurrentSong] = useRecoilState(currentSongState);
+    const changeSong = () => {
+        setCurrentSong(song);
+    }
 
     // React Hooks ----------------------------- END
 

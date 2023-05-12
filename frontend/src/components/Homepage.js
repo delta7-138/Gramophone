@@ -7,11 +7,11 @@ function Homepage()
 {
     return(
         <div className="homepage-container">
-            <div className="playlist-side">
+            <div className="playlist">
                 <Playlist />
             </div>
             <div className="home-side">
-                <Menu/>
+                <Menu />
             </div>
             <div className="song-player">
                 <SongPlayer />

@@ -1,8 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import { RecoilRoot } from 'recoil';
 
 function App(props) {
     return (
+        <RecoilRoot>
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
@@ -20,6 +22,7 @@ function App(props) {
             </header>
             <button onClick={() => props.Logout()}>Logout</button>
         </div>
+        </RecoilRoot>
     );
 }
 

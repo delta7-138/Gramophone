@@ -20,10 +20,18 @@ function Menu()
         pop_artists.push({'name':'Artist'+i.toString(), 'img':artPic})
     }
 
+    // react hooks --------------------------- START
     const [search,setSearch] = useState('');
     const handleSearchChange = (event) => {
         setSearch(event.target.value);
     };
+
+    const [openProfile, setOpenProfile] = useState(false);
+    const handleProfileClick = () => {
+        setOpenProfile(!openProfile);
+    }
+
+    // react hooks --------------------------- END
 
     // popular songs scrolling
     const songScrollRight = () => {
@@ -68,7 +76,15 @@ function Menu()
                 </div>
 
                 <div className="user-profile">
-                    <img src={profile_pic} alt=""/>
+                    <img src={profile_pic} alt="" onClick={handleProfileClick}/>
+                    {openProfile ? (
+                        <div className="profile-menu">
+                            <h3>Settings</h3>
+                            <h3 id="logout">Logout</h3>
+                        </div>
+                        ) : (
+                        <></>
+                    )}
                 </div>
             </nav>
             <div className="content">

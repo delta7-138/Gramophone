@@ -5,30 +5,30 @@
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-template-rows: 7fr 1fr;
-    background-color: #121212;
+    background: #121212;
     overflow: hidden;
     /* color: white; */
 }
 
-.playlist-side {
+.playlist {
     grid-row: 1;
     grid-column: 1;
-    background-color: #19022ded;
+    /* background: linear-gradient(to bottom,#64678aed #5b2889ed); */
     /* border: 1px solid #fff; */
-    box-shadow: 5px 0px 2px #090f1f;
 }
 
 .home-side {
     grid-row: 1;
     grid-column: 2;
-    background-color: rgba(33, 3, 63, 0.878);
+    /* background-color: rgba(33, 3, 63, 0.878); */
+    background: linear-gradient(to bottom,#3d2819, #3a166166);
     /* border: 1px solid #fff; */
 }
 
 .song-player {
     grid-row: 2;
     grid-column: span 2;
-    background-color: #500f8870;
+    /* background-color: #500f8870; */
     /* border: 1px solid #fff; */
     box-shadow: 5px 0px 2px #090f1f;
 

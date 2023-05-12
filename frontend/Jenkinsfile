@@ -15,25 +15,26 @@ pipeline {
         stage('Build and Test - Frontend') {
             steps {
                 // npm build, 'sh' specifies it is a shell command
-                sh 'npm i && npm test'
+		bat 'cd frontend'
+                bat 'npm i && npm test'
             }
         }
         stage('Build Docker Images') {
              steps {
-                 sh 'docker build -t premsai1503/majorProject_backend:latest .'
+                 bat 'docker build -t premsai1503/majorProject_backend:latest .'
              }
         }
 
         stage('Publish Docker Images') {
             steps {
                 withDockerRegistry([ credentialsId: "DockerJenkins", url: "" ]) {
-                    sh 'docker push premsai1503/majorProject_backend:latest'
+                    bat 'docker push premsai1503/majorProject_backend:latest'
                 }
             }
         }
         stage('Clean Docker Images') {
             steps {
-               sh 'docker rmi -f premsai1503/majorProject_backend:latest'
+               bat 'docker rmi -f premsai1503/majorProject_backend:latest'
             }
         }
         stage('Deploy and Run Image') {
@@ -44,7 +45,7 @@ pipeline {
     }
       post {
             always {
-                sh 'docker logout'
+                bat 'docker logout'
             }
         }
 }

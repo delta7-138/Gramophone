@@ -20,5 +20,5 @@ COPY . .
 
 # RUN npm test
 
-EXPOSE 5000
+EXPOSE 4963
 CMD [ "npm", "start" ]

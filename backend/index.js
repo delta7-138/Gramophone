@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const mongoose = require("mongoose"); 
 const cors = require("cors"); 
 const database_uri = process.env.CONNECTION_URI; 
-const cors = require("cors"); 
 
 
 const app = express(); 

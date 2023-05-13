@@ -15,13 +15,18 @@ pipeline {
         stage('Build and Test - Backend') {
             steps {
                 // npm build, 'sh' specifies it is a shell command
-                sh 'cd backend'
-                sh 'npm i && npm test'
+                bat """
+                    cd backend
+                    npm i && npm start
+                """.stripIndent().trim()
             }
         }
         stage('Build Docker Images') {
              steps {
-                 sh 'docker build -t premsai1503/majorProject_backend:latest .'
+                bat """
+                cd backend
+                docker build -t gramophone/gramophone_backend:latest
+                """.stripIndent().trim()
              }
         }
 

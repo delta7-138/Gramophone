@@ -2,11 +2,8 @@
 FROM node:alpine
 
 #set environment variables for backend
-ENV CONNECTION_URI = $(CONNECTION_URI)
-ENV jwt_config = $(jwt_config)
 
-RUN /bin/echo $(CONNECTION_URI)
-RUN /bin/echo $(jwt_config)
+
 #set the working directory
 WORKDIR /app
 

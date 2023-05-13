@@ -17,7 +17,7 @@ pipeline {
                 // npm build, 'sh' specifies it is a shell command
                 bat """
                     cd backend
-                    npm i && npm start
+                    npm i && npm test
                 """.stripIndent().trim()
             }
         }

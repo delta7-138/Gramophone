@@ -24,7 +24,7 @@ pipeline {
         stage('Build Docker Images') {
              steps {
 		sh 'env'
-		sh 'cd backend; docker build --build-arg CONNECTION_URI=CONNECTION_URI jwt_config=jwt_config -t gramophone/gramophone_backend:latest .'
+		sh 'cd backend; docker build -t gramophone/gramophone_backend:latest --build-arg CONNECTION_URI=CONNECTION_URI jwt_config=jwt_config .'
              }
         }
 

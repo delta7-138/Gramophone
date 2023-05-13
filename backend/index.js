@@ -31,7 +31,6 @@ app.use(bodyParser.urlencoded({
 const {UserRouter} = require("./Routes/UserRoute"); 
 const {TrackRouter} = require("./Routes/TrackRoute"); 
 const {AlbumRouter} = require("./Routes/AlbumRoute"); 
-const Album = require('./Schemas/Album');
 
 app.use('/api/users/' , UserRouter); 
 app.use('/api/tracks/' , TrackRouter);  
@@ -41,11 +40,4 @@ app.listen(5000 , () =>{
     console.log("Server listening on 5000")
 }); 
 
-
-
-
-
-app.listen(5000 , () =>{
-    console.log("Server listening on 5000")
-}); 
 

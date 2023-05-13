@@ -14,26 +14,26 @@
     place-items: center;
 }
   
-h1 {
+.login-page h1 {
     font-size: 23px;
     text-align: center;
 }
 
-label {
+.login-page label {
     position:relative;
     /* margin: 50px 0px 50px 0px;     */
     /* padding-top: 20px; */
 }
 
-p {
+.login-page p {
     margin: 10px 0px 0px 0px;
 }
 
-input::placeholder, textarea::placeholder {
+.login-page input::placeholder, textarea::placeholder {
     color: #767272;
 }
 
-.login-form {
+.login-page .login-form {
 
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: 3%;
@@ -43,7 +43,7 @@ input::placeholder, textarea::placeholder {
     place-items: center;
 }
 
-.signIn-Up-btns {
+.login-page .signIn-Up-btns {
     position: relative;
     top: 20px;
     width: 90%;
@@ -52,7 +52,7 @@ input::placeholder, textarea::placeholder {
     place-items: stretch center;
 }
 
-.signIn-Up-btns button {
+.login-page .signIn-Up-btns button {
     color: #fff;
     width: 100%;
     font-size: 20px;
@@ -63,11 +63,11 @@ input::placeholder, textarea::placeholder {
     border-color: rgba(255, 255, 255, 0.3);
 }
 
-.signIn-Up-btns button:hover {
+.login-page .signIn-Up-btns button:hover {
     border-color: #fff;
 }
 
-.form {
+.login-page .form {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -78,11 +78,11 @@ input::placeholder, textarea::placeholder {
     right: 20vw;
 }
 
-.form .control {
+.login-page .form .control {
     margin: 0 0 24px;
 }
 
-.form .control input {
+.login-page .form .control input {
     width: 100%;
     padding: 14px 16px;
     border: 0;
@@ -93,12 +93,12 @@ input::placeholder, textarea::placeholder {
     font-size: 16px;
 }
 
-.form .control input:hover, .form .control input:focus {
+.login-page .form .control input:hover, .form .control input:focus {
     outline: none;
     border: 0;
 }
   
-.form .btn {
+.login-page .form .btn {
     width: 100%;
     display: block;
     padding: 14px 16px;
@@ -112,12 +112,12 @@ input::placeholder, textarea::placeholder {
     font-size: 16px;
 }
   
-.block-cube {
+.login-page .block-cube {
     position: relative;
     top: 20px;
 }
 
-.block-cube .bg-top {
+.login-page .block-cube .bg-top {
     position: absolute;
     height: 10px;
     background: #020024;
@@ -130,7 +130,7 @@ input::placeholder, textarea::placeholder {
     
 }
 
-.block-cube .bg-top .bg-inner {
+.login-page .block-cube .bg-top .bg-inner {
     bottom: 0;
 }
 
@@ -138,7 +138,7 @@ input::placeholder, textarea::placeholder {
     opacity: 0.8;
 }
 
-.block-cube .bg {
+.login-page .block-cube .bg {
     position: absolute;
     left: 0;
     top: 0;
@@ -148,7 +148,7 @@ input::placeholder, textarea::placeholder {
     background: linear-gradient(90deg, #020024 0%, #340979 37%, #00d4ff 94%);
 }
 
-.block-cube .bg-right {
+.login-page .block-cube .bg-right {
     position: absolute;
     background: #020024;
     background: #00d4ff;
@@ -160,15 +160,15 @@ input::placeholder, textarea::placeholder {
     transform: skew(0, -45deg);
 }
 
-.block-cube .bg-right .bg-inner {
+.login-page .block-cube .bg-right .bg-inner {
     left: 0;
 }
 
-.block-cube .bg .bg-inner {
+.login-page .block-cube .bg .bg-inner {
     transition: all 0.2s ease-in-out;
 }
 
-.block-cube .bg-inner {
+.login-page .block-cube .bg-inner {
     background: #212121;
     position: absolute;
     left: 2px;
@@ -177,21 +177,21 @@ input::placeholder, textarea::placeholder {
     bottom: 2px;
 }
 
-  .block-cube .text {
+.login-page .block-cube .text {
     position: relative;
     z-index: 2;
 }
 
-  .block-cube.block-input input {
+.login-page .block-cube.block-input input {
     position: relative;
     z-index: 2;
 }
-  .block-cube.block-input input:focus ~ .bg-right .bg-inner, .block-cube.block-input input:focus ~ .bg-top .bg-inner, .block-cube.block-input input:focus ~ .bg-inner .bg-inner {
+.login-page .block-cube.block-input input:focus ~ .bg-right .bg-inner, .block-cube.block-input input:focus ~ .bg-top .bg-inner, .block-cube.block-input input:focus ~ .bg-inner .bg-inner {
     top: 100%;
     background: rgba(255, 255, 255, 0.5);
 }
 
-  .block-cube.block-input .bg-top,
+.login-page .block-cube.block-input .bg-top,
   .block-cube.block-input .bg-right,
   .block-cube.block-input .bg {
     background: rgba(255, 255, 255, 0.5);
@@ -199,12 +199,12 @@ input::placeholder, textarea::placeholder {
     
 }
 
-  .block-cube.block-input .bg-right .bg-inner,
+.login-page .block-cube.block-input .bg-right .bg-inner,
   .block-cube.block-input .bg-top .bg-inner {
     transition: all 0.2s ease-in-out;
 }
 
-  .block-cube.block-input:focus .bg-top,
+.login-page .block-cube.block-input:focus .bg-top,
   .block-cube.block-input:focus .bg-right,
   .block-cube.block-input:focus .bg, .block-cube.block-input:hover .bg-top,
   .block-cube.block-input:hover .bg-right,
@@ -212,6 +212,6 @@ input::placeholder, textarea::placeholder {
     background: rgba(255, 255, 255, 0.8);
 }
 
-  .block-cube.block-cube-hover:focus .bg .bg-inner, .block-cube.block-cube-hover:hover .bg .bg-inner {
+.login-page .block-cube.block-cube-hover:focus .bg .bg-inner, .block-cube.block-cube-hover:hover .bg .bg-inner {
     top: 100%;
 }

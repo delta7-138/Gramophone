@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState }from 'react';
 import axios from 'axios';
 import './login.css'
-import App from '../App.js';
+import { useNavigate } from 'react-router-dom';
 
 function SignUpForm(props)
 {
@@ -38,7 +38,7 @@ function SignUpForm(props)
             console.log(message);
             props.onSignUp()
         }
-    }, [message,props])
+    }, [message,props]);
 
     const f = useCallback(message => {
         console.log("Running Callback") 
@@ -212,7 +212,6 @@ function SignInForm(props)
     const [password, setPassword] = useState('');
 
     const [message, setMessage] = useState('');
-
     const [error, setError] = useState(null);
 
     const handleUsernameChange = (event) => {
@@ -336,10 +335,12 @@ function SignInForm(props)
     );
 }
 
-function SignInSignUpPage() 
+function Login() 
 {
     const [showSignIn, setShowSignIn] = useState(true);
     const [isLogged, setisLogged] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleSignUpClick = () => {
         setShowSignIn(false);
@@ -353,13 +354,10 @@ function SignInSignUpPage()
     const handleSignIn = () => {
         setisLogged(true)
     }
-    const handleLogout = () => {
-        setisLogged(false)
-    }
 
     return (
         <div className='login-page'>
-            {isLogged ? (<App Logout={handleLogout}/>
+            {isLogged ? (navigate("/home")
             ) : (
                 <div className='login-form'>
                     <div className="signIn-Up-btns">
@@ -380,4 +378,4 @@ function SignInSignUpPage()
     )
 }
 
-export default SignInSignUpPage;
+export default Login;

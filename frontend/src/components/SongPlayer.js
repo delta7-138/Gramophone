@@ -45,11 +45,32 @@ function SongPlayer()
     // Controlling Music ----------------------- START
 
     useEffect(() => {
+        if (duration && duration !== 0) {
+            // console.log(duration);
+            const temp2 = Math.round(duration);
+            const temp = formatTime(temp2);
+            setFormatDuration(temp);
+        }
+    },[duration]);
+
+    const loadSong = () => {
+        const temp = songRef.current.duration;
+        setDuration(temp);
+        songRef.current.volume = volume;
+        // console.log("ct",songRef.current.currentTime);
+        setCurrentTime(songRef.current.currentTime);
+    };
+
+    useEffect(() => {
         if (current_time && current_time !== 0) {
             // console.log(current_time);
             const temp2 = Math.round(current_time);
             const temp = formatTime(temp2);
             setFormatCurrentTime(temp);
+        }
+        else {
+            setFormatCurrentTime('0:00');
+            setseekValue(0);
         }
     },[current_time]);
 
@@ -67,21 +88,6 @@ function SongPlayer()
         setCurrentTime(seekTime);
         document.getElementById("currentSong").currentTime = seekTime;
         // console.log(seekTime);
-    };
-
-    useEffect(() => {
-        if (duration && duration !== 0) {
-            // console.log(duration);
-            const temp2 = Math.round(duration);
-            const temp = formatTime(temp2);
-            setFormatDuration(temp);
-        }
-    },[duration]);
-
-    const loadSong = () => {
-        const temp = songRef.current.duration;
-        setDuration(temp);
-        songRef.current.volume = volume;
     };
 
     const handleMuteClick = () => {

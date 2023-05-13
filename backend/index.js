@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const mongoose = require("mongoose"); 
 const cors = require("cors"); 
 const database_uri = process.env.CONNECTION_URI; 
+const cors = require("cors"); 
 
 
 const app = express(); 
@@ -22,9 +23,8 @@ database.once('connected' , (connected) => {
 }); 
 
 //setup express middleware 
-app.use(express.json()); 
 app.use(cors()); 
-
+app.use(express.json()); 
 app.use(bodyParser.urlencoded({
     extended: true
   }));
@@ -43,4 +43,10 @@ app.listen(5000 , () =>{
 }); 
 
 
+
+
+
+app.listen(5000 , () =>{
+    console.log("Server listening on 5000")
+}); 
 

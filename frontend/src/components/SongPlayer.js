@@ -8,8 +8,8 @@ import { FaVolumeUp, FaVolumeMute } from "react-icons/fa"
 import { MdArrowForwardIos , MdArrowBackIosNew, MdPlayArrow, MdPause } from "react-icons/md"
 import { useState, useEffect, useRef } from "react";
 
-// import { useRecoilState } from 'recoil';
-// import { currentSongState } from './atom';
+import { useRecoilState } from 'recoil';
+import { currentSongState } from '../atom';
 
 function SongPlayer()
 {
@@ -34,6 +34,7 @@ function SongPlayer()
     const [volume,setVolume] = useState(1);
     
     const [seekValue, setseekValue] = useState(0);
+    const [currentSong, setCurrentSong] = useRecoilState(currentSongState);
     // React Hooks ----------------------------- END
 
     const formatTime = (time) => {
@@ -42,20 +43,6 @@ function SongPlayer()
         return `${minutes}:${seconds}`;
     };
     // Controlling Music ----------------------- START
-
-    useEffect(() => {
-        if (duration && duration !== 0) {
-            // console.log(duration);
-            const temp = formatTime(duration);
-            setFormatDuration(temp);
-        }
-    },[duration]);
-
-    const loadSong = () => {
-        const temp = Math.round(songRef.current.duration);
-        setDuration(temp);
-        songRef.current.volume = volume;
-    };
 
     useEffect(() => {
         if (current_time && current_time !== 0) {
@@ -67,30 +54,46 @@ function SongPlayer()
     },[current_time]);
 
     const timeUpdate = () => {
-        const temp = Math.round(songRef.current.currentTime);
+        const temp = songRef.current.currentTime;
         setCurrentTime(temp);
 
         const temp2 = (current_time/duration) * 100;
         setseekValue(temp2);
-        // console.log('seekvalue',seekValue);
+        // console.log('seekvalue ',seekValue,'current time ',current_time);
     };
 
     const onSeekChange = (e) => {
-        const seekTime = Math.round((e.target.value / 100) * duration);
+        const seekTime = (e.target.value / 100) * duration;
         setCurrentTime(seekTime);
         document.getElementById("currentSong").currentTime = seekTime;
-        console.log(seekTime);
+        // console.log(seekTime);
+    };
+
+    useEffect(() => {
+        if (duration && duration !== 0) {
+            // console.log(duration);
+            const temp2 = Math.round(duration);
+            const temp = formatTime(temp2);
+            setFormatDuration(temp);
+        }
+    },[duration]);
+
+    const loadSong = () => {
+        const temp = songRef.current.duration;
+        setDuration(temp);
+        songRef.current.volume = volume;
     };
 
     const handleMuteClick = () => {
         const music = document.getElementById("currentSong");
         if(isMute){
-            music.volume = volume;
+            music.volume = 1;
         }
         else {
             music.volume = 0;
         }
         
+        setVolume(music.volume);
         setisMute(!isMute);
     };
     
@@ -105,9 +108,15 @@ function SongPlayer()
         setisPlaying(!isPlaying);
     };
 
+    const volumeChange = (e) => {
+        const newVolume = e.target.value / 100;
+        setVolume(newVolume);
+        document.getElementById("currentSong").volume = newVolume;
+    };
+
     return (
         <div className="player">
-            <audio id="currentSong" src={current_song.song}
+            <audio id="currentSong" src={currentSong.song}
                                     ref={songRef}
                                     onLoadedMetadata={loadSong}
                                     onTimeUpdate={timeUpdate}
@@ -119,10 +128,10 @@ function SongPlayer()
                 <div className="wave1"></div>
             </div>
             
-            <img id="current-song" src={current_song.img} alt="" />
+            <img id="current-song" src={currentSong.poster} alt="" />
             <h5>
-                {current_song.title}
-                <div className="artist-name">{current_song.artist}</div>
+                {currentSong.title}
+                <div className="artist-name">{currentSong.artist}</div>
             </h5>
             <IconContext.Provider value={{className:'icons'}}>
                 <BsMusicNoteBeamed />
@@ -157,9 +166,15 @@ function SongPlayer()
                 {isMute ? (<FaVolumeMute id="vol-icons" onClick={handleMuteClick}/>) 
                         : (<FaVolumeUp id="vol-icons" onClick={handleMuteClick}/>)
                 }
-                <input type={"range"} min="0" max="100" id="vol-bar"/>
-                <div className="vol-bar" id="vol"></div>
-                <div className="dot" id="vol-dot"></div>
+                <input type={"range"} 
+                        min="0" 
+                        max="100" 
+                        id="vol-bar"
+                        value={volume*100}
+                        onChange={volumeChange}
+                />
+                <div className="vol-bar" id="vol" style={{width:(volume*100).toString()+'%'}}></div>
+                <div className="dot" id="vol-dot" style={{left:(volume*100).toString()+'%'}}></div>
             </div>
             <BsPlusCircleFill id="add-song"/>
         </div>

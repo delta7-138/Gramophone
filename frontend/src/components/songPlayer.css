@@ -148,18 +148,18 @@
     width: 50%;
     height: 100%;
     top: 0px;
-    transition: 1s linear;
+    transition: .5s linear;
 }
 
 .player .seek-bar .dot {
     position: absolute;
     width: 5px;
     height: 5px;
-    background-color: #36e2ec;
+    background-color: #e23f12;
     border-radius: 50%;
     left: 0%;
     top: -1.5px;
-    transition: 1s linear; 
+    transition: .5s linear; 
 }
 
 .player .seek-bar .dot::before {
@@ -214,22 +214,22 @@
 
 .player .volume .vol-bar {
     position: absolute;
-    background-color: #36e2ec;
+    background-color: #e23f12;
     width: 50%;
     height: 100%;
     top: 0;
-    transition: 1s linear;
+    transition: .3s linear;
 }
 
 .player .volume .dot {
     position: absolute;
     width: 5px;
     height: 5px;
-    background-color: #36e2ec;
+    background-color: #e23f12;
     border-radius: 50%;
     left: 0%;
     top: -1.5px;
-    transition: 1s linear;
+    transition: .3s linear;
 }
 
 .player .volume .dot::before {
@@ -245,8 +245,8 @@
 }
 
 .player #add-song {
-    position: absolute;
+    /* position: absolute; */
     color: #fff;
     font-size: 23px;
-    right: 50px;
+    margin-left: 30px;
 }

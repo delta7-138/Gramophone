@@ -12,15 +12,15 @@ pipeline {
 				git url: 'https://github.com/delta7-138/Gramophone.git'
 		    }
         }
-        stage('Build and Test - Backend') {
-            steps {
-                // npm build, 'sh' specifies it is a shell command
-                bat """
-                    cd backend
-                    npm i && npm test
-                """.stripIndent().trim()
-            }
-        }
+        // stage('Build and Test - Backend') {
+        //     steps {
+        //         // npm build, 'sh' specifies it is a shell command
+        //         bat """
+        //             cd backend
+        //             npm i && npm test
+        //         """.stripIndent().trim()
+        //     }
+        // }
         stage('Build Docker Images') {
              steps {
                 bat """

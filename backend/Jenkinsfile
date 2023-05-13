@@ -23,6 +23,7 @@ pipeline {
         // }
         stage('Build Docker Images') {
              steps {
+		sh 'cd backend'
                 sh 'docker build -t gramophone/gramophone_backend:latest .'
              }
         }

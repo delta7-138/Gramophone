@@ -8,9 +8,12 @@ const AlbumSchema = new Schema({
     UPC : String, 
     tracks : [Schema.Types.ObjectId], 
     num_tracks : Number, 
-    album_type : String, 
-    artist_name : String, 
-    artist_id : Schema.Types.ObjectId
+    album_type : String, //playlist only for now otherwise album
+    user_name : String, 
+    user_id : Schema.Types.ObjectId, 
+    albumcover : String, 
+    albumcover_type : String, 
+    private_flag : Boolean
 }); 
 
 module.exports = mongoose.model("Album" , AlbumSchema); 

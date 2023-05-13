@@ -8,7 +8,9 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     name : String, 
     email : {type : String, index : {unique : true , dropDups : true}},  
-    password : String 
+    password : String, 
+    playlists : [Schema.Types.ObjectId], //array of album ids
+    songs_uploaded : [Schema.Types.ObjectId] // array of song ids 
 }); 
 
 

@@ -29,7 +29,7 @@ pipeline {
 
         stage('Publish Docker Images') {
             steps {
-                withDockerRegistry([ credentialsId: "gramphonedocker", url: "" ]) {
+                withDockerRegistry([ credentialsId: "gramophonedocker", url: "" ]) {
                     sh 'docker push gramophone/gramophone_backend:latest'
                 }
             }

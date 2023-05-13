@@ -5,6 +5,8 @@ FROM node:alpine
 ENV CONNECTION_URI = $(CONNECTION_URI)
 ENV jwt_config = $(jwt_config)
 
+RUN /bin/echo CONNECTION_URI
+RUN /bin/echo jwt_config
 #set the working directory
 WORKDIR /app
 
@@ -14,6 +16,7 @@ COPY package*.json /app/
 
 #Run command npm install to install packages
 RUN npm install --force
+
 
 #copy all the folder contents from local to container
 COPY . .

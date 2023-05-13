@@ -1,0 +1,337 @@
+.menu-side {
+    z-index: 2;
+    position: relative;
+    color: #fff;
+}
+
+.menu-side::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    background: url("../assets/weekend.webp");
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+.menu-side nav {
+    width: 90%;
+    height: 10%;
+    /* border: 1px solid #fff; */
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu-side nav ul {
+    display: flex;
+}
+
+.menu-side nav ul li {
+    list-style: none;
+    position: relative;
+    font-size: 15px;
+    color: #7c87a7;
+    margin-right: 25px;
+    cursor: pointer;
+    transition: .3s linear;
+}
+
+.menu-side nav ul li:hover {
+    color: #fff;
+}
+
+.menu-side nav ul li:nth-child(1) {
+    color: #fff;
+}
+
+.menu-side nav ul li span {
+    position: absolute;
+    width: 100%;
+    height: 2.5px;
+    background-color: #36e2ec;
+    bottom: -5px;
+    left: 0;
+    border-radius: 20px;
+}
+
+.menu-side nav .search-bar {
+    position: relative;
+    width: 30%;
+    /* margin-top: 5px; */
+    padding: 1px 10px 10px;
+    border-radius: 20px;
+    /* border: 1px solid #fff; */
+    color: gray;
+}
+
+.menu-side nav .search-bar::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(184, 184, 184, .1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+.menu-side nav .search-bar #search-icon {
+    font-size: 13px;
+    padding: 15px 0px 0px 10px;
+}
+
+.menu-side nav .search-bar input {
+    background: none;
+    border: none;
+    outline: none;
+    width: 80%;
+    padding: 10px 10px 0px 15px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.menu-side nav .user-profile {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    margin-top: 10px;
+    /* border: 1px solid #fff; */
+    border-radius: 50%;
+    background-color: black;
+}
+
+.menu-side nav .user-profile img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 2px 2px 8px #121213;
+}
+
+.menu-side nav .user-profile .profile-menu {
+    position: absolute;
+    top : 40px;
+    right: 0;
+    width: 150px;
+    height: 100px;
+    color: gray;
+    /* border: 1px solid #fff; */
+    transition: ease .3s linear;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menu-side .user-profile .profile-menu::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(184, 184, 184, .1);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+.menu-side .user-profile .profile-menu h3 {
+    cursor: pointer;
+}
+
+.menu-side .user-profile .profile-menu h3:hover {
+    color: #fff;
+}
+
+.menu-side .user-profile .profile-menu #logout {
+    margin-top: 0px;
+}
+
+.menu-side .content {
+    width: 90%;
+    height: 21.5vh;
+    /* border: 1px solid #fff; */
+    padding: 20px;
+}
+
+.menu-side .content h1 {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.menu-side .content p {
+    font-size: 18px;
+    font-weight: 400;
+    color: #a4afcf;
+}
+
+.menu-side .content .content-btns {
+    margin-top: 15px;
+}
+
+.menu-side .content .content-btns button {
+    width: 130px;
+    height: 30px;
+    /* border: 2px solid #fff; */
+    font-size: 15px;
+    font-weight: 600;
+    outline: none;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    background: none;
+    color: #f7f3f2;
+    cursor: pointer;
+    transition: .3s linear;
+}
+
+.menu-side .content .content-btns #listen-now {
+    margin-right: 10px;
+}
+
+.menu-side .content .content-btns button:hover {
+    color: #fff;
+    background-color: #af532b;
+}
+
+.menu-side .popular {
+    width: 95%;
+    height: auto;
+    margin: auto;
+    margin-top: 15px;
+    margin-left: 35px;
+    /* border: 1px solid #fff; */
+}
+
+.menu-side .popular .H4 {
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    justify-content: space-between;
+}
+
+.menu-side .popular .H4 svg {
+    font-size: 30px;
+    color: #495477a8;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: .3s linear;
+}
+
+.menu-side .popular .H4 svg:hover {
+    color: #fff;
+}
+
+.menu-side .popular .pop-songs {
+    width: 76vw;
+    height: 175px;
+    margin-top: 5px;
+    display: flex;
+    /* border: 1px solid #fff; */
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+
+.menu-side .popular .pop-songs::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-side .popular .pop-songs li {
+    min-width: 120px;
+    height: 180px;
+    list-style-type: none;
+    margin-right: 10px;
+    transition: .3s linear;
+
+}
+
+.menu-side .popular .pop-songs li:hover {
+    background-color: rgba(105, 105, 170, .1);
+}
+
+.menu-side .popular .pop-songs li .song-img {
+    position: relative;
+    width: 120px; 
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-side .popular .pop-songs li .song-img img {
+    width: 100%;
+    height: 100%;
+}
+
+.menu-side .popular .pop-songs li .song-img .song-play-btn {
+    position: absolute;
+    font-size: 20px;
+    cursor: pointer;
+    transition: .3s linear;
+    opacity: 0;
+}
+
+.menu-side .popular .pop-songs li:hover .song-img .song-play-btn {
+    opacity: 1;
+}
+
+.menu-side .popular .pop-songs li h5 {
+    padding: 5px 0px 0px 5px;
+    line-height: 15px;
+    font-size: 20px;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+.menu-side .popular .pop-songs li h5 .artist-name {
+    margin-top: 10px;
+    font-size: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #a4a8b4;
+}
+
+.menu-side .popular .artists {
+    width: 76vw;
+    height: 175px;
+    margin-top: 5px;
+    display: flex;
+    /* border: 1px solid #fff; */
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+.menu-side .popular .artists::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-side .popular .artists li {
+    min-width: 150px;
+    height: 150px;
+    list-style-type: none;
+    margin-right: 10px;
+    transition: .3s linear;
+    cursor: pointer;
+}
+
+.menu-side .popular .artists li:hover {
+    background-color: rgba(105, 105, 170, .1);
+}
+
+.menu-side .popular .artists li img{
+    position: relative;
+    width: 130px; 
+    height: 130px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    margin-left: 10px;  
+}

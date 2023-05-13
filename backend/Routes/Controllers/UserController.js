@@ -27,7 +27,7 @@ const createUser = ((req , res) => {
     User.create({
         name : req.body.name,
         email : req.body.email, 
-        password : req.body.password
+        password : req.body.password,
     })
     .then(user => {
         var token = jwt.sign({id : user.id} , process.env.jwt_config, {
@@ -36,13 +36,13 @@ const createUser = ((req , res) => {
 
         res.status(200).json({
             id : user._id, 
-            username : user.name, 
+            username : user.name,
             email : user.email, 
             acessToken : token
         })
     })
     .catch(err => res.status(500).json({err}))
-}); 
+});
 
 
 const loginUser = ((req , res) => {
@@ -61,7 +61,7 @@ const loginUser = ((req , res) => {
             username : user.name, 
             email : user.email, 
             accessToken : token
-        }); 
+        });     
     })
     .catch(err => res.status(500).json({err}))
 }); 

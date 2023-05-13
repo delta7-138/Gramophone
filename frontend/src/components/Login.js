@@ -32,7 +32,7 @@ function SignUpForm(props)
 
 
     useEffect(() => {
-        console.log("Running Message...")
+        console.log("Running Message in SignUp...")
         if (message && message !== '') {
             console.log("This is me printing")
             console.log(message);
@@ -224,7 +224,7 @@ function SignInForm(props)
     };
 
     useEffect(() => {
-        console.log("Running Message...")
+        console.log("Running Message in SignIn...")
         if (message && message !== '') {
             console.log("This is me printing")
             console.log(message);

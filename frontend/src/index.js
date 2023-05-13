@@ -1,18 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-// import App from './App';
-import Login from './components/Login';
-// import Homepage from './components/Homepage';
+// import App from "./App"
+// import Login from './components/Login';
+import Homepage from './components/Homepage';
 import reportWebVitals from './reportWebVitals';
+import { RecoilRoot } from 'recoil';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    {/* <Homepage /> */}
-    <Login />
-    {/* <Test/> */}
-  </React.StrictMode>
+    <React.StrictMode>
+        <RecoilRoot>
+        {/* <App /> */}
+            <Homepage />
+            {/* <Login      /> */}
+        
+        </RecoilRoot>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

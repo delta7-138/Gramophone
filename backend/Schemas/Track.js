@@ -8,7 +8,11 @@ const TrackSchema = new Schema({
     album_id : Schema.Types.ObjectId,
     album_name : String,  
     artist_id : Schema.Types.ObjectId, 
-    artist_name : String 
+    artist_name : String, 
+    mimeType : String, 
+    filename : String, 
+    trackcover_type : String, //trackcover mimeType
+    trackcover : String //filename to track image
 }); 
 
 module.exports = mongoose.model("Track" , TrackSchema); 

@@ -3,8 +3,10 @@ require('dotenv').config();
 const express = require("express"); 
 const bodyParser = require('body-parser')
 const mongoose = require("mongoose"); 
+const cors = require("cors"); 
 const database_uri = process.env.CONNECTION_URI; 
 const cors = require("cors"); 
+
 
 const app = express(); 
 mongoose.connect(database_uri); 
@@ -15,8 +17,9 @@ database.on('error' , (error) => {
     console.log(error)
 }); 
 
+
 database.once('connected' , (connected) => {
-    console.log('Database connected')
+    console.log('Database connected'); 
 }); 
 
 //setup express middleware 
@@ -26,10 +29,24 @@ app.use(bodyParser.urlencoded({
     extended: true
   }));
 
-
 const {UserRouter} = require("./Routes/UserRoute"); 
+const {TrackRouter} = require("./Routes/TrackRoute"); 
+const {AlbumRouter} = require("./Routes/AlbumRoute"); 
+const Album = require('./Schemas/Album');
+
 app.use('/api/users/' , UserRouter); 
+app.use('/api/tracks/' , TrackRouter);  
+app.use('/api/albums/' , AlbumRouter)
 
 app.listen(5000 , () =>{
     console.log("Server listening on 5000")
 }); 
+
+
+
+
+
+app.listen(5000 , () =>{
+    console.log("Server listening on 5000")
+}); 
+

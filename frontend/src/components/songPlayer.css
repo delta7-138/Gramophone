@@ -8,7 +8,7 @@
 .player .wave {
     width: 30px;
     height: 30px;
-    border: 1px solid #fff;
+    /* border: 1px solid #fff; */
     padding-bottom: 5px;
     display: flex;
     align-items: flex-end;
@@ -69,7 +69,7 @@
 }
 
 .player h5 {
-    width: 150px;
+    width: 250px;
     /* border: 1px solid #fff; */
     margin-left: 15px;
     color: #fff;
@@ -144,7 +144,7 @@
 
 .player .seek-bar .seek-bar2 {
     position: absolute;
-    background-color: #5cb670;
+    background-color: #e23f12;
     width: 50%;
     height: 100%;
     top: 0px;
@@ -159,7 +159,7 @@
     border-radius: 50%;
     left: 0%;
     top: -1.5px;
-    transition: 1s linear;
+    transition: 1s linear; 
 }
 
 .player .seek-bar .dot::before {
@@ -197,8 +197,9 @@
     position: absolute;
     color: #fff;
     font-size: 24px;
-    top: -12px;
-    left: -36px;
+    top: -11px;
+    left: -38px;
+    cursor: pointer;
 }
 
 .player .volume input {

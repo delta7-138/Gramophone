@@ -5,6 +5,8 @@ import song from "../assets/hxh.mp3"
 import {BsMusicNote, BsPlayCircleFill} from 'react-icons/bs'
 import {IconContext} from 'react-icons'
 import { useState } from "react"
+// import { currentSongState } from "./atom"
+// import { useRecoilState } from "recoil"
 
 function Playlist()
 {
@@ -45,7 +47,10 @@ function Playlist()
     };
 
     // React Hooks ----------------------------- END
-
+    // const [currentSong, setCurrentSong] = useRecoilState(currentSongState);
+    // const changeSong = (song) => {
+    //     console.log(song);
+    // }
     // Handlers -------------------------------- START
     
     // Handlers -------------------------------- END

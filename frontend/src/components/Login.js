@@ -38,7 +38,7 @@ function SignUpForm(props)
             console.log(message);
             props.onSignUp()
         }
-    }, [message,props])
+    }, [message,props]);
 
     const f = useCallback(message => {
         console.log("Running Callback") 

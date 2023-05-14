@@ -67,7 +67,7 @@ function SignUpForm(props)
                 'Content-Type': 'application/x-www-form-urlencoded'
             }})
             .then(res => {
-                localStorage.setItem("gram-jwt-token" , res.data.email)
+                localStorage.setItem("gram-jwt-token" , res.data.accessToken)
                 console.log(res.data)
                 f(res.data)
             })

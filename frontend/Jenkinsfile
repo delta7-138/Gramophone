@@ -20,7 +20,7 @@ pipeline {
 //         }
         stage('Build Docker Images') {
              steps {
-                 sh 'docker build -t gramophone/gramophone_frontend:latest .'
+                 sh 'cd frontend; docker build -t gramophone/gramophone_frontend:latest .'
              }
         }
 

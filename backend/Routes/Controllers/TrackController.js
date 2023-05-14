@@ -134,7 +134,7 @@ const downloadTrack = ((req , res) => {
         console.log(tok.id)
         User.findOne({id : tok.id})
         .then(_ => {
-            Track.findById({name : req.body.id})
+            Track.findById(new mongoose.mongo.ObjectId(req.body.id))
             .then(track => {
                 mongoose.connect(database_uri)
                 let bucket = new mongodb.GridFSBucket(mongoose.connection , {

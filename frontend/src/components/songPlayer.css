@@ -88,12 +88,15 @@
     /* overflow: hidden; */
     text-overflow: ellipsis;
     white-space: nowrap;
-    animation: move 5s linear infinite;
+    /* animation: move 5s linear infinite; */
 }
 
 @keyframes move {
     0% {
       transform: translateX(0%); /* Start from the left side of the container */
+    }
+    50% {
+        transform: translateX(-50%);
     }
     100% {
       transform: translateX(-100%); /* Move to the right side of the container */

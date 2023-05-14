@@ -6,7 +6,10 @@ import song2 from "../assets/Blinding_Lights.mp3"
 import {BsMusicNote, BsPlayCircleFill} from 'react-icons/bs'
 import {IconContext} from 'react-icons'
 import { useState,useRef } from "react"
-import { currentSongState } from "../atom"
+import { currentSongState, 
+    currentPlaylistState,
+    // prevPlaylistState 
+} from "../atom"
 import { useRecoilState } from "recoil"
 
 function Playlist()
@@ -68,39 +71,33 @@ function Playlist()
     };
 
     const [currentSong, setCurrentSong] = useRecoilState(currentSongState);
-
+    const [currenList, setCurrentList] = useRecoilState(currentPlaylistState);
     // React Hooks ----------------------------- END
-    
+    // setCurrentList(playlist1);
     // Handlers -------------------------------- START
-    // useEffect(()=>{
-    //     console.log(currentSong.name);
-    // },[currentSong]);
-    const playSong1 = () => {
-        console.log("last");
+
+    const playSong1 = (id) => {
+        // console.log(id);
+        // console.log("last");
         setCurrentSong({
-            title: playlist1.songs[0].title,
-            artist: playlist1.songs[0].artist,
-            poster: playlist1.songs[0].img,
-            song: playlist1.songs[0].song
+            title: playlist1.songs[id].title,
+            artist: playlist1.songs[id].artist,
+            poster: playlist1.songs[id].img,
+            song: playlist1.songs[id].song
         });
     };
 
-    const playSong2 = () => {
-        console.log("last2");
+    const playSong2 = (id) => {
+        // console.log("last2");
+        // setCurrentList(currenList);
         setCurrentSong({
-            title: playlist2.songs[0].title,
-            artist: playlist2.songs[0].artist,
-            poster: playlist2.songs[0].img,
-            song: playlist2.songs[0].song
+            title: playlist2.songs[id].title,
+            artist: playlist2.songs[id].artist,
+            poster: playlist2.songs[id].img,
+            song: playlist2.songs[id].song
         });
     };
     // Handlers -------------------------------- END
-    
-    let current_list = null;
-    let prev_list = null;
-
-    current_list = playlist1;
-    prev_list = playlist2;
 
     return (
         <div className="playlist-side">
@@ -118,9 +115,9 @@ function Playlist()
 
             {whichList === 0 && 
                 <>
-                    <h3>{current_list.name}</h3>
+                    <h3>{playlist1.name}</h3>
                     <div className="songs-list">
-                        {current_list.songs.map((item,index) => (
+                        {playlist1.songs.map((item,index) => (
                             <li key={index} className="song-item">
                                 <span>{ index < 10 ? (index+1).toString().padStart(2,'0')
                                         : index+1}</span>
@@ -130,7 +127,7 @@ function Playlist()
                                     <div className="artist-name">{item.artist}</div>
                                 </h5>
                                 <IconContext.Provider value={{className:'song-play-btn'}}>
-                                    <BsPlayCircleFill id = {index} onClick={playSong1}/>
+                                    <BsPlayCircleFill id = {index} onClick={()=>playSong1(index)}/>
                                 </IconContext.Provider>
                             </li>
                         ))}
@@ -139,9 +136,9 @@ function Playlist()
             }
             { whichList === 1 && 
                 <>
-                    <h3>{prev_list.name}</h3>
+                    <h3>{playlist2.name}</h3>
                     <div className="songs-list">
-                        {prev_list.songs.map((item,index) => (
+                        {playlist2.songs.map((item,index) => (
                             <li key={index} className="song-item">
                                 <span>{ index < 10 ? (index+1).toString().padStart(2,'0')
                                         : index+1}</span>
@@ -151,7 +148,7 @@ function Playlist()
                                     <div className="artist-name">{item.artist}</div>
                                 </h5>
                                 <IconContext.Provider value={{className:'song-play-btn'}}>
-                                    <BsPlayCircleFill id = {index} onClick={playSong2}/>
+                                    <BsPlayCircleFill id = {index} onClick={()=>playSong2(index)}/>
                                 </IconContext.Provider>
                             </li>
                         ))}

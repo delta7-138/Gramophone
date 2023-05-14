@@ -1,6 +1,6 @@
 import "./songPlayer.css"
-import myImg from '../assets/login_background.jpg'
-import song from "../assets/hxh.mp3"
+// import myImg from '../assets/login_background.jpg'
+// import song from "../assets/hxh.mp3"
 import { IconContext } from "react-icons";
 import { BsMusicNoteBeamed, BsPlusCircleFill} from "react-icons/bs"
 import { RxDownload } from "react-icons/rx"
@@ -13,12 +13,12 @@ import { currentSongState } from '../atom';
 
 function SongPlayer()
 {
-    const current_song = {
-        'img': myImg,
-        'title': 'The Legened of the Martial Artist',
-        'artist': 'Hunter x Hunter 2011 Chimera Ant Arc',
-        'song' : song
-    };
+    // const current_song = {
+    //     'img': myImg,
+    //     'title': 'The Legened of the Martial Artist',
+    //     'artist': 'Hunter x Hunter 2011 Chimera Ant Arc',
+    //     'song' : song
+    // };
 
     // React Hooks ----------------------------- START
     const songRef = useRef(null);

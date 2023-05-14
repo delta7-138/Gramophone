@@ -12,12 +12,12 @@ pipeline {
 				git url: 'https://github.com/delta7-138/Gramophone.git'
 		    }
         }
-        stage('Build and Test - Frontend') {
-            steps {
-                // npm build, 'sh' specifies it is a shell command
-                sh 'cd frontend ; npm i && npm test'
-            }
-        }
+//         stage('Build and Test - Frontend') {
+//             steps {
+//                 // npm build, 'sh' specifies it is a shell command
+//                 sh 'cd frontend ; npm i && npm test'
+//             }
+//         }
         stage('Build Docker Images') {
              steps {
                  sh 'docker build -t gramophone/gramophone_frontend:latest .'

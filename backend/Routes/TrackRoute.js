@@ -4,6 +4,7 @@ const {upload} = require("./Controllers/upload")
 const TrackRouter = express.Router(); 
 
 const  {
+    getTracksForUser, 
     getTracks, 
     getTracksByName, 
     getTracksByArtistName, 
@@ -12,6 +13,7 @@ const  {
     downloadTrack
 } = require("./Controllers/TrackController.js"); 
 
+TrackRouter.get("/usertracks" , getTracksForUser)
 TrackRouter.get("/all/" , getTracks); 
 TrackRouter.get("/findByAlbum" , getTracksByAlbumName) //mention album name in the request body
 TrackRouter.get("/findByArtist" , getTracksByArtistName) //mention artist name in the request body

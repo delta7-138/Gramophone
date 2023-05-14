@@ -6,6 +6,36 @@ const mongodb = require('mongodb');
 const database_uri = process.env.CONNECTION_URI; 
 
 
+const getTracksForUser = ((req , res) => {
+    verifyToken(req.body.accessToken)
+    .then(token => {
+        User.findById(token.id)
+        .then(user => {
+            Track.find({artist_id : user.id})
+            .then(tracks => {
+                res.status(200).json(tracks)
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message : "Cannot find any tracks", 
+                    error : err
+                })
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                message : "Cannot find a user refresh the token", 
+                error : err
+            })
+        })
+    })
+    .catch(err => {
+        res.status(500).json({
+            message : "Invalid token", 
+            error : err
+        })
+    })
+})
 
 const getTracks = ((_ , res) => {
     Track.find({})
@@ -104,7 +134,7 @@ const downloadTrack = ((req , res) => {
         console.log(tok.id)
         User.findOne({id : tok.id})
         .then(_ => {
-            Track.findOne({name : req.body.name})
+            Track.findById({name : req.body.id})
             .then(track => {
                 mongoose.connect(database_uri)
                 let bucket = new mongodb.GridFSBucket(mongoose.connection , {
@@ -155,6 +185,7 @@ const downloadTrack = ((req , res) => {
 
 
 module.exports = {
+    getTracksForUser, 
     getTracks, 
     getTracksByName, 
     getTracksByArtistName, 

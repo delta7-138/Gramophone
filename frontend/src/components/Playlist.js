@@ -95,11 +95,11 @@ function Playlist()
     // Handlers -------------------------------- START
 
     const playSong1 = (id) => {
-        setCurrentSong({...playlist1.songs[id]});
+        setCurrentSong({...currentList.songs[id]});
     };
 
     const playSong2 = (id) => {
-        setCurrentSong({...playlist2.songs[id]});
+        setCurrentSong({...previousList.songs[id]});
         const temp1 = {...currentList};
         const temp2 = {...previousList};
         setCurrentList(temp2);

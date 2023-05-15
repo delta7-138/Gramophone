@@ -1,6 +1,5 @@
 const User = require("./../../Schemas/User")
 const Album = require("./../../Schemas/Album")
-const Track = require("./../../Schemas/Track")
 const {verifyToken} = require('./Validate')
 const mongoose = require("mongoose")
 
@@ -49,4 +48,35 @@ const createAlbum = ((req , res) => {
 })
 
 
-module.exports = {createAlbum}
+const getAlbumsForUser = ((req , res) => {
+    verifyToken(req.body.accessToken)
+    .then(token => {
+        User.findById(token.id)
+        .then(user => {
+            Album.find({user_id : user.id})
+            .then(albums => {
+                res.status(200).json(albums)
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message : "Cannot find any albums", 
+                    error : err
+                })
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                message : "Cannot find a user refresh the token", 
+                error : err
+            })
+        })
+    })
+    .catch(err => {
+        res.status(500).json({
+            message : "Invalid token", 
+            error : err
+        })
+    })
+})
+
+module.exports = {createAlbum , getAlbumsForUser}

@@ -12,36 +12,35 @@ pipeline {
 				git url: 'https://github.com/delta7-138/Gramophone.git'
 		    }
         }
-        stage('Build and Test - Frontend') {
-            steps {
-                // npm build, 'sh' specifies it is a shell command
-                sh 'cd frontend'
-                sh 'npm i && npm test'
-            }
-        }
+//         stage('Build and Test - Frontend') {
+//             steps {
+//                 // npm build, 'sh' specifies it is a shell command
+//                 sh 'cd frontend ; npm i && npm test'
+//             }
+//         }
         stage('Build Docker Images') {
              steps {
-                 sh 'docker build -t premsai1503/majorProject_backend:latest .'
+                 sh 'cd frontend; docker build -t gramophone/gramophone_frontend:latest .'
              }
         }
 
         stage('Publish Docker Images') {
             steps {
-                withDockerRegistry([ credentialsId: "DockerJenkins", url: "" ]) {
-                    sh 'docker push premsai1503/majorProject_backend:latest'
+                withDockerRegistry([ credentialsId: "gramophonedocker", url: "" ]) {
+                    sh 'docker push gramophone/gramophone_frontend:latest'
                 }
             }
         }
         stage('Clean Docker Images') {
             steps {
-               sh 'docker rmi -f premsai1503/majorProject_backend:latest'
+               sh 'docker rmi -f gramophone/gramophone_frontend:latest'
             }
         }
-        stage('Deploy and Run Image') {
-            steps {
-                ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: './ansible/inventory', playbook: './ansible/playbook.yml', sudoUser: null
-            }
-        }
+//         stage('Deploy and Run Image') {
+//             steps {
+//                 ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: './ansible/inventory', playbook: './ansible/playbook.yml', sudoUser: null
+//             }
+//         }
     }
 //       post {
 //             always {

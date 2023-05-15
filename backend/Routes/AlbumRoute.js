@@ -3,10 +3,12 @@ const {upload} = require('./Controllers/upload')
 const AlbumRouter = express.Router(); 
 
 const {
-    createAlbum
+    createAlbum, 
+    getAlbumsForUser
 } = require('./Controllers/AlbumController.js'); 
 
 
+AlbumRouter.get('/useralbums' , getAlbumsForUser)
 AlbumRouter.post('/createAlbum' , upload.single('cover') , createAlbum); 
 
 //more routers for accessing dashboard with jwt token

@@ -5,8 +5,10 @@ import Menu from "./Menu";
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
 
+
 function Homepage()
 {
+    
     let isLoggedIn; 
     const navigate = useNavigate();
     if(localStorage.getItem("gram-jwt-token") == null){
@@ -31,7 +33,6 @@ function Homepage()
         isLoggedIn = false
         navigate("/")
     })
-
 
     return(
         <div>

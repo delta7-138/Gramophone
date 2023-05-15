@@ -5,11 +5,14 @@ import song1 from "../assets/hxh.mp3"
 import song2 from "../assets/Blinding_Lights.mp3"
 import {BsMusicNote, BsPlayCircleFill} from 'react-icons/bs'
 import {IconContext} from 'react-icons'
-import { useState,useRef } from "react"
+import { useState,
+        useRef,
+        useEffect 
+    } from "react"
 import { currentSongState, 
-    currentPlaylistState,
-    // prevPlaylistState 
-} from "../atom"
+        currentPlaylistState,
+    prevPlaylistState 
+    } from "../atom"
 import { useRecoilState } from "recoil"
 
 function Playlist()
@@ -28,23 +31,23 @@ function Playlist()
     {
         playlist1.songs.push({ 'title':'My Song'+i.toString(), 
                             'artist':'artist'+i.toString(), 
-                            'img':myImg,
+                            'poster':myImg,
                             'song': song1
         });
         playlist2.songs.push({ 'title':'Your Song'+i.toString(), 
                             'artist':'artist'+i.toString(), 
-                            'img':yourImg,
+                            'poster':yourImg,
                             'song': song2
         });
 
         playlist3.songs.push({ 'title':'Recom'+i.toString(), 
                             'artist':'artist'+i.toString(), 
-                            'img':yourImg,
+                            'poster':yourImg,
                             'song': song1
         });
     }
 
-    // React Hooks ----------------------------- START    
+    // React Hooks ----------------------------- START
     const [whichList, setwhichList] = useState(0); // 0 - curr; 1 - prev; 2 - recommend
 
     const setActive = (refIndex) => {
@@ -71,31 +74,38 @@ function Playlist()
     };
 
     const [currentSong, setCurrentSong] = useRecoilState(currentSongState);
-    const [currenList, setCurrentList] = useRecoilState(currentPlaylistState);
+    const [currentList, setCurrentList] = useRecoilState(currentPlaylistState);
+    const [previousList, setprevList] = useRecoilState(prevPlaylistState);
     // React Hooks ----------------------------- END
-    // setCurrentList(playlist1);
+    useEffect(()=>{
+        setCurrentList({...playlist1});
+        setprevList({...playlist2});
+    },[]);
+
+    // useEffect(()=>{
+    //     if(flag[0])
+    //     {
+    //         const temp1 = {...currentList};
+    //         const temp2 = {...previousList};
+
+    //         setCurrentList(temp2);
+    //         setprevList(temp1);
+    //     }
+    // },[flag]);
     // Handlers -------------------------------- START
 
     const playSong1 = (id) => {
-        // console.log(id);
-        // console.log("last");
-        setCurrentSong({
-            title: playlist1.songs[id].title,
-            artist: playlist1.songs[id].artist,
-            poster: playlist1.songs[id].img,
-            song: playlist1.songs[id].song
-        });
+        setCurrentSong({...playlist1.songs[id]});
     };
 
     const playSong2 = (id) => {
-        // console.log("last2");
-        // setCurrentList(currenList);
-        setCurrentSong({
-            title: playlist2.songs[id].title,
-            artist: playlist2.songs[id].artist,
-            poster: playlist2.songs[id].img,
-            song: playlist2.songs[id].song
-        });
+        setCurrentSong({...playlist2.songs[id]});
+        const temp1 = {...currentList};
+        const temp2 = {...previousList};
+        setCurrentList(temp2);
+        setprevList(temp1);
+
+        toCurrList();
     };
     // Handlers -------------------------------- END
 
@@ -113,15 +123,15 @@ function Playlist()
                 </IconContext.Provider>
             </div>
 
-            {whichList === 0 && 
+            {whichList === 0 && currentList &&
                 <>
-                    <h3>{playlist1.name}</h3>
+                    <h3>{currentList.name}</h3>
                     <div className="songs-list">
-                        {playlist1.songs.map((item,index) => (
+                        {currentList.songs.map((item,index) => (
                             <li key={index} className="song-item">
                                 <span>{ index < 10 ? (index+1).toString().padStart(2,'0')
                                         : index+1}</span>
-                                <img src={item.img} alt="" />
+                                <img src={item.poster} alt="" />
                                 <h5 className="song-title">
                                     {item.title}<br/>
                                     <div className="artist-name">{item.artist}</div>
@@ -136,13 +146,13 @@ function Playlist()
             }
             { whichList === 1 && 
                 <>
-                    <h3>{playlist2.name}</h3>
+                    <h3>{previousList.name}</h3>
                     <div className="songs-list">
-                        {playlist2.songs.map((item,index) => (
+                        {previousList.songs.map((item,index) => (
                             <li key={index} className="song-item">
                                 <span>{ index < 10 ? (index+1).toString().padStart(2,'0')
                                         : index+1}</span>
-                                <img src={item.img} alt="" />
+                                <img src={item.poster} alt="" />
                                 <h5 className="song-title">
                                     {item.title}<br/>
                                     <div className="artist-name">{item.artist}</div>
@@ -163,7 +173,7 @@ function Playlist()
                             <li key={index} className="song-item">
                                 <span>{ index < 10 ? (index+1).toString().padStart(2,'0')
                                         : index+1}</span>
-                                <img src={item.img} alt="" />
+                                <img src={item.poster} alt="" />
                                 <h5 className="song-title">
                                     {item.title}<br/>
                                     <div className="artist-name">{item.artist}</div>

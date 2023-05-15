@@ -13,10 +13,10 @@ export const currentSongState = atom({
 
 export const currentPlaylistState   = atom({
     key: 'currentPlaylistState',
-    default: [] // Initial value for current_playlist
+    default: null // Initial value for current_playlist
 });
 
 export const prevPlaylistState = atom({
     key: 'prevPlaylistState',
-    default: [] // Initial value for prev_playlist
+    default: null // Initial value for prev_playlist
 });

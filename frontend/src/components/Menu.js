@@ -11,140 +11,174 @@ import { currentSongState } from "../atom"
 
 const CreateTrackForm = ({ onCancel }) => {
     const [songName, setSongName] = useState('');
-    const [songPoster, setSongPoster] = useState('');
+    const [songPoster, setSongPoster] = useState(null);
     const [songFile, setSongFile] = useState(null);
-
+  
     const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // Submit the form data and perform necessary actions
-        console.log('Submitted:', songName, songPoster, songFile);
+      e.preventDefault();
+      // Process the form submission here
+      console.log('Song Name:', songName);
+      console.log('Song Poster:', songPoster);
+      console.log('Song File:', songFile);
+      // Reset the form
+      setSongName('');
+      setSongPoster(null);
+      setSongFile(null);
     };
-
+  
     return (
-        <form className="form">
-        <label htmlFor="songName">Song Name:</label>
+      <form className="form">
+        <label htmlFor="songName">Track Name:
         <input
-            type="text"
-            id="songName"
-            value={songName}
-            onChange={(e) => setSongName(e.target.value)}
+          type="text"
+          id="songName"
+          value={songName}
+          placeholder="Song name"
+          onChange={(e) => setSongName(e.target.value)}
         />
-
-        <label htmlFor="songPoster">Song Poster:</label>
+        </label>
+  
+        <label htmlFor="songPoster">Track Poster:
         <input
-            type="text"
-            id="songPoster"
-            value={songPoster}
-            onChange={(e) => setSongPoster(e.target.value)}
+          type="file"
+          accept="image/*"
+          id="songPoster"
+          placeholder="Song Poster"
+          onChange={(e) => setSongPoster(e.target.files[0])}
         />
-
-        <label htmlFor="songFile">Song File:</label>
+        </label>
+  
+        <label htmlFor="songFile">Song File:
         <input
-            type="file"
-            id="songFile"
-            accept=".mp3"
-            onChange={(e) => setSongFile(e.target.files[0])}
+          type="file"
+          accept=".mp3"
+          id="songFile"
+          onChange={(e) => setSongFile(e.target.files[0])}
         />
-
+        </label>
+  
         <div className="buttons">
-            <button type="submit" onClick={handleFormSubmit}>
-            Submit
-            </button>
-            <button type="button" onClick={onCancel}>
+          <button type="submit" onClick={handleFormSubmit}>
+            Create
+          </button>
+          <button type="button" onClick={onCancel}>
             Cancel
-            </button>
+          </button>
         </div>
-        </form>
+      </form>
     );
-};
-
-const CreatePlaylistForm = ({ onCancel }) => {
+  };
+  
+  const CreatePlaylistForm = ({ onCancel }) => {
     const [playlistName, setPlaylistName] = useState('');
-    const [playlistPoster, setPlaylistPoster] = useState('');
-    const [songs, setSongs] = useState([]);
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        // Submit the form data and perform necessary actions
-        console.log('Submitted:', playlistName, playlistPoster, songs);
+    const [playlistPoster, setPlaylistPoster] = useState(null);
+    const [songs, setSongs] = useState([{ name: '', poster: '', file: null }]);
+  
+    const handleInputChange = (index, field, value) => {
+      const updatedSongs = [...songs];
+      updatedSongs[index][field] = value;
+      setSongs(updatedSongs);
     };
-
-    const addSong = () => {
-        setSongs([...songs, { name: '', poster: '', file: null }]);
+  
+    const handlePosterChange = (e) => {
+      setPlaylistPoster(e.target.files[0]);
     };
-
-    const removeSong = (index) => {
-        const updatedSongs = [...songs];
-        updatedSongs.splice(index, 1);
-        setSongs(updatedSongs);
-    };
-
+  
     const handleSongChange = (index, field, value) => {
-        const updatedSongs = [...songs];
-        updatedSongs[index][field] = value;
-        setSongs(updatedSongs);
+      const updatedSongs = [...songs];
+      updatedSongs[index][field] = value;
+      setSongs(updatedSongs);
     };
-
+  
+    const addSong = () => {
+      setSongs([...songs, { name: '', poster: '', file: null }]);
+    };
+  
+    const removeSong = (index) => {
+      const updatedSongs = [...songs];
+      updatedSongs.splice(index, 1);
+      setSongs(updatedSongs);
+    };
+  
+    const handleFormSubmit = (e) => {
+      e.preventDefault();
+      // Process the form submission here
+      console.log('Playlist Name:', playlistName);
+      console.log('Playlist Poster:', playlistPoster);
+      console.log('Songs:', songs);
+      // Reset the form
+      setPlaylistName('');
+      setPlaylistPoster(null);
+      setSongs([{ name: '', poster: '', file: null }]);
+    };
+  
     return (
-        <form className="form">
+      <form className="form">
         <label htmlFor="playlistName">Playlist Name:</label>
         <input
-            type="text"
-            id="playlistName"
-            value={playlistName}
-            onChange={(e) => setPlaylistName(e.target.value)}
+          type="text"
+          id="playlistName"
+          value={playlistName}
+          onChange={(e) => setPlaylistName(e.target.value)}
         />
+              <label htmlFor="playlistPoster">Playlist Poster:</label>
+      <input
+        type="file"
+        accept="image/*"
+        id="playlistPoster"
+        onChange={handlePosterChange}
+      />
 
-        <label htmlFor="playlistPoster">Playlist Poster:</label>
-        <input
-            type="text"
-            id="playlistPoster"
-            value={playlistPoster}
-            onChange={(e) => setPlaylistPoster(e.target.value)}
-        />
-
-        <label htmlFor="songs">Songs:</label>
+      <div className="songs">
+        <label>Songs:</label>
         {songs.map((song, index) => (
-            <div key={index}>
+          <div key={index}>
+            <label htmlFor={`songName_${index}`}>Song Name:</label>
             <input
-                type="text"
-                placeholder="Song Name"
-                value={song.name}
-                onChange={(e) => handleSongChange(index, 'name', e.target.value)}
+              type="text"
+              id={`songName_${index}`}
+              value={song.name}
+              onChange={(e) => handleInputChange(index, 'name', e.target.value)}
             />
+
+            <label htmlFor={`songPoster_${index}`}>Song Poster:</label>
             <input
-                type="text"
-                placeholder="Song Poster"
-                value={song.poster}
-                onChange={(e) => handleSongChange(index, 'poster', e.target.value)}
-                />
-            <input
-                type="file"
-                accept=".mp3"
-                onChange={(e) =>
-                handleSongChange(index, 'file', e.target.files[0])
-                }
+              type="file"
+              accept="image/*"
+              id={`songPoster_${index}`}
+              onChange={(e) => handleInputChange(index, 'poster', e.target.files[0])}
             />
+
+            <label htmlFor={`songFile_${index}`}>Song File:</label>
+            <input
+              type="file"
+              accept=".mp3"
+              id={`songFile_${index}`}
+              onChange={(e) => handleSongChange(index, 'file', e.target.files[0])}
+            />
+
             <button type="button" onClick={() => removeSong(index)}>
-                Remove
+              Remove
             </button>
-            </div>
+          </div>
         ))}
         <button type="button" onClick={addSong}>
-            Add Song
+          Add Song
         </button>
+      </div>
 
-        <div className="buttons">
-            <button type="submit" onClick={handleFormSubmit}>
-            Submit
-            </button>
-            <button type="button" onClick={onCancel}>
-            Cancel
-            </button>
-        </div>
-        </form>
-    );
+      <div className="buttons">
+        <button type="submit" onClick={handleFormSubmit}>
+          Submit
+        </button>
+        <button type="button" onClick={onCancel}>
+          Cancel
+        </button>
+      </div>
+    </form>
+  );
 };
+
 
 
 function Menu()

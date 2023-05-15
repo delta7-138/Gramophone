@@ -339,87 +339,101 @@
     margin-right: 10px;
     margin-left: 10px;  
 }
-  
-/* styles.css */
 
-/* styles.css */
-
-/* styles.css */
-
-.container {
+.menu-side .container {
+    height: auto;
+    /* padding-top: 20vh; */
+    /* padding-bottom: 10vh; */
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin-top: 50px;
-  }
+}
   
-  .plus-buttons {
+.menu-side .plus-buttons {
     display: flex;
     gap: 20px;
-  }
+    background: none;
+}
   
-  .create-button {
+.menu-side .create-button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 120px;
-    height: 120px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
+    width: 200px;
+    height: 200px;
+    /* border: 2px solid #fff; */
+
+    outline: none;
+    border: 2px solid rgba(36, 152, 172, 0.122);
+    border-radius: 20px;
+    background: none;
+    color: #9489849a;
     cursor: pointer;
-    padding: 10px;
-    transition: border-color 0.3s;
-  }
+    transition: .3s linear;
+}
   
-  .create-button:hover {
-    border-color: #888;
-  }
+.menu-side .create-button:hover {
+    border: 2px solid rgb(36, 152, 172);
+    color: #fff;
+    background: linear-gradient(to bottom, #67419d,#8f2d8c);
+}
   
-  .create-button-icon {
-    font-size: 40px;
+.menu-side .create-button-icon {
+    font-size: 50px;
+    margin-top: 50px;
     margin-bottom: 10px;
-  }
+}
   
-  .create-button-text {
-    font-size: 14px;
-  }
+.menu-side .create-button-text {
+    font-size: 20px;
+}
   
-  .form {
+.menu-side .form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-width: 400px;
+    max-width: 600px;
     margin-top: 20px;
-  }
+    padding: 0;
+}
   
-  .buttons {
+.menu-side .buttons {
     display: flex;
     gap: 10px;
-    justify-content: flex-end;
+    justify-content: center;
     margin-top: 20px;
-  }
+}
   
   /* Styling for the playlist form */
   
-  .songs {
+.menu-side .songs {
     display: flex;
     flex-direction: column;
     gap: 10px;
     max-height: 200px;
     overflow-y: auto;
-  }
+}
   
-  .songs input {
-    margin-bottom: 5px;
-  }
+.menu-side form input {
+    background: none;
+    border: 1px solid #fff;
+    outline: none;
+    width: 80%;
+    padding: 10px 10px 0px 15px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;;
+}
   
-  .add-song-button {
+.menu-side .add-song-button {
     margin-top: 10px;
-  }
+}
   
-  .remove-song-button {
+.menu-side .remove-song-button {
     align-self: flex-start;
-  }
+}
   
   
   

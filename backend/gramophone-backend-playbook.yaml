@@ -1,0 +1,19 @@
+---
+- name: "Gramophone Backend deployment"
+  hosts: all
+  connection: local
+  tasks:
+    - name: Docker start
+      service:
+        name: docker
+        state: started
+
+    - name: "Clean up existing deployments"
+      kubernetes.core.k8s:
+        state: absent
+        definition: "{{ lookup('file', '../kubernetes/gramophone-backend-k8s.yaml')}}"
+
+    - name: "Deploy"
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '../kubernetes/gramophone-backend-k8s.yaml')}}"

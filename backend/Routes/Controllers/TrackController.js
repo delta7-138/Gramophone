@@ -6,6 +6,38 @@ const mongodb = require('mongodb');
 const database_uri = process.env.CONNECTION_URI; 
 
 
+const getTrackBySearch = ((req , res) => {
+    verifyToken(req.body.accessToken)
+    .then(token_id => {
+        User.findById(token_id.id)
+        .then(_ => {
+            let track_term = '^' + req.body.searchTerm 
+            let re = new RegExp(track_term); 
+            console.log(track_term)
+            console.log(re)
+            Track.find({name : {$regex: re , $options : 'i' }})
+            .then(tracks => {
+                res.status(200).json(tracks)
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message : "Could not query tracks", 
+                    error : err
+                })
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                message : "Cannot find user refresh token", 
+                error : err
+            })
+        })
+    })
+    .catch(err => res.status(500).json({
+        message : "token error", 
+        err : err}))
+})
+
 const getTrackCover = ((req , res) => {
     verifyToken(req.param("accessToken"))
     .then(token => {
@@ -247,6 +279,7 @@ const downloadTrack = ((req , res) => {
 
 
 module.exports = {
+    getTrackBySearch, 
     getTrackCover, 
     getTracksForUser, 
     getTracks, 

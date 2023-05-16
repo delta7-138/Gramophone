@@ -4,6 +4,7 @@ const {upload} = require("./Controllers/upload")
 const TrackRouter = express.Router(); 
 
 const  {
+    getTrackBySearch, 
     getTrackCover, 
     getTracksForUser, 
     getTracks, 
@@ -14,6 +15,7 @@ const  {
     downloadTrack
 } = require("./Controllers/TrackController.js"); 
 
+TrackRouter.get("/search" , getTrackBySearch)
 TrackRouter.get("/trackcover" , getTrackCover)
 TrackRouter.post("/usertracks" , getTracksForUser)
 TrackRouter.get("/all/" , getTracks); 

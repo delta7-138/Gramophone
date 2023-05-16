@@ -2,7 +2,7 @@ import "./menu.css"
 import profile_pic from "../assets/profile.png"
 import myImg from "../assets/login_background.jpg"
 import artPic from "../assets/blw.png"
-import song from "../assets/Blinding_Lights.mp3"
+import blindingsong from "../assets/Blinding_Lights.mp3"
 import { BsSearch, BsPlayCircleFill } from "react-icons/bs"
 import { AiOutlineCaretRight, AiOutlineCaretLeft } from "react-icons/ai"
 import { useState, useRef } from "react";
@@ -12,6 +12,10 @@ import { user_tracks } from "../atom"
 import { curr_track_cover } from "../atom"
 import axios from "axios";
 import { isPlayingState } from "../atom";
+import { search_tracks } from "../atom";
+import { nav_state } from "../atom"
+import { index_song_list } from "../atom"
+import { currentPlaylistState } from "../atom"
 
 
 const url_root = 'http://localhost:5000'
@@ -227,45 +231,14 @@ function Menu()
     
     const [curr_cover , setTrackCover] = useRecoilState(curr_track_cover)
     const [pop_songs , setPopSongs] = useRecoilState(user_tracks)
+    const [search_list, setSearchList] = useRecoilState(search_tracks)
+    const [isPlaying , setIsPlaying] = useRecoilState(isPlayingState)
+    const [currNavState , setNavState] = useRecoilState(nav_state)
+    const [index_song , setSongIndex] = useRecoilState(index_song_list)
+    const [currentList, setCurrentList] = useRecoilState(currentPlaylistState);
 
-    function blobToBase64(blob , track_id) {
-        return new Promise((resolve, _) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            console.log(reader.result)
-            setTrackCover(reader.result)
-            resolve(reader.result)
-          };
-          reader.readAsDataURL(blob);
-        });
-    }
-    const download_track_cover = (track_id , trackcover_type) => {
-        let response_text; 
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    
-    
-        var urlencoded = new URLSearchParams();
-        urlencoded.append("accessToken", localStorage["gram-jwt-token"]);
-        urlencoded.append("id", track_id);
-    
-        var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: 'follow'
-        };
-    
-    
-        fetch("http://localhost:5000/api/tracks/trackcover", requestOptions)
-        .then(response => response.blob())
-        .then(result => {
-            blobToBase64(result)
-            .then(dataUrl => {
-            })
-        })
-        .catch(error => console.log('error', error));
-    }
+
+   
     
 
     const get_user_tracks = () => {
@@ -301,11 +274,9 @@ function Menu()
 
     }
 
-    const [isPlaying , setIsPlaying] = useRecoilState(isPlayingState)
     
 
     
-    let home_search_tracks = []; 
    
     // for(let i = 1; i < 15; i++ )
     // {
@@ -318,12 +289,50 @@ function Menu()
         pop_artists.push({'name':'Artist'+i.toString(), 'img':artPic})
     }
 
+    
+
     // react hooks --------------------------- START
     const [search,setSearch] = useState('');
+
+    const get_search_tracks = () => {
+        let songs = []; 
+        console.log(search)
+        console.log(localStorage["gram-jwt-token"])
+
+        var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+        };
+
+        fetch("http://localhost:5000/api/tracks/search?accessToken=" + localStorage["gram-jwt-token"] + "&searchTerm=" + search , requestOptions)
+        .then(response => response.json())
+        .then((response) => {
+            for(var i = 0; i<response.length; i++)
+            {
+                let song = response[i];
+                console.log(song.name)
+                const cover_url = "http://localhost:5000/api/tracks/trackcover?accessToken=" + localStorage["gram-jwt-token"] + "&id=" + song._id
+                songs.push({'title' : song.name ,'artist' : song.artist_name  , 'img' : cover_url , 'track_id' : song._id})
+            }
+            setSearchList(songs)
+        })
+        .catch((error) => {
+        console.log(error);
+        });
+
+    }
+    
     const handleSearchChange = (event) => { //every time value changes the search atom changes
         //every time it changes send an axios request to search 
+        get_search_tracks(); 
         setSearch(event.target.value);
     };
+
+    const handleSearchResult = () => {
+        get_search_tracks(); 
+    }
+
+
 
     const [openProfile, setOpenProfile] = useState(false);
     const handleProfileClick = () => {
@@ -349,6 +358,7 @@ function Menu()
         setDisplayForm(null);
         setShowPlusButtons(true);
     };
+
     // react hooks --------------------------- END
 
     // popular songs scrolling
@@ -381,11 +391,15 @@ function Menu()
     };
 
     const toHome = () => {
+        let search_playlist = {'name': 'Search Results', 'songs':search_list}
+        setCurrentList({...search_playlist})
         setActive(0);
         setwhichNav(0);
     };
     const toMyLib = () => {
         get_user_tracks()
+        let user_playlist = {'name' : 'User Tracks' , 'songs':pop_songs}
+        setCurrentList({...user_playlist})
         setActive(1)
         setwhichNav(1);
     };
@@ -407,16 +421,37 @@ function Menu()
         document.getElementById("pa").scrollLeft -= 330;
     };
     // ----------------------------------- end
-    const playSong = (id) => {
+    const playSong = (id , nav) => {
         setIsPlaying(false)
         console.log(id)
-        const song = pop_songs[id]
-        setCurrentSong({
-            title: song.title,
-            artist: song.artist,
-            poster: song.img,
-            song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
-        })
+        let song; 
+        if(nav >= 0){
+            if(nav == 1){ 
+                song = pop_songs[id]
+            }
+            else if(nav == 0){ 
+                song = search_list[id]
+            }
+
+            setNavState(nav); 
+            setSongIndex(id)
+            
+            setCurrentSong({
+                title: song.title,
+                artist: song.artist,
+                poster: song.img,
+                song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
+            })
+        }
+        else
+        {
+            setCurrentSong({
+                title: "Blinding Lights",
+                artist: "The Weeknd",
+                poster: artPic, 
+                song: blindingsong
+            })
+        }
     };
 
     return (
@@ -429,7 +464,7 @@ function Menu()
                 </ul>
                 
                 <div className="search-bar">
-                    <BsSearch id="search-icon"/>
+                    <BsSearch id="search-icon" onClick = {handleSearchResult}/>
                     <input type={"text"} value={search} 
                             onChange={handleSearchChange}
                             placeholder="Search.." id=""
@@ -453,7 +488,7 @@ function Menu()
                 <p>by The Weekend</p>
                 <p>Most Listened song on Gramophone</p>
                 <div className="content-btns">
-                    <button id = "listen-now" onClick={playSong}>Listen Now</button>
+                    <button id = "listen-now" onClick={() => playSong(-1 , -1)}>Listen Now</button>
                     <button id = "add-playlist">Add to Playlist</button>
                 </div>
             </div>
@@ -468,11 +503,11 @@ function Menu()
                         </div>
                     </div>
                     <div id="ps" className="pop-songs">
-                        {pop_songs.map((item,index) => (
+                        {search_list.map((item,index) => (
                             <li key={index} className="song-item">
                                 <div className="song-img">
                                     <img src={item.img} alt="" />
-                                    <div className="song-play-btn">
+                                    <div className="song-play-btn"  onClick = {() => playSong(index , 0)}>
                                         <BsPlayCircleFill id ="1"/>
                                     </div>
                                 </div>
@@ -516,7 +551,7 @@ function Menu()
                             <li key={index} className="song-item">
                                 <div className="song-img">
                                     <img src={item.img} alt="" />
-                                    <div className="song-play-btn" onClick = {() => playSong(index)}>
+                                    <div className="song-play-btn" onClick = {() => playSong(index , 1)}>
                                         <BsPlayCircleFill id ="1"/>
                                     </div>
                                 </div>

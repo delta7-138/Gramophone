@@ -11,9 +11,13 @@ import { useState,
     } from "react"
 import { currentSongState, 
         currentPlaylistState,
-    prevPlaylistState 
+    prevPlaylistState, 
+    user_tracks, 
+    search_tracks
     } from "../atom"
 import { useRecoilState } from "recoil"
+
+
 
 function Playlist()
 {

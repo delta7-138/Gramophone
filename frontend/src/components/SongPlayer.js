@@ -11,6 +11,10 @@ import { useState, useEffect, useRef } from "react";
 import { useRecoilState } from 'recoil';
 import { currentSongState } from '../atom';
 import { isPlayingState } from "../atom";
+import { user_tracks } from "../atom";
+import { search_tracks } from "../atom";
+import { index_song_list } from "../atom";
+import { nav_state } from "../atom";
 
 function SongPlayer()
 {
@@ -36,6 +40,11 @@ function SongPlayer()
     
     const [seekValue, setseekValue] = useState(0);
     const [currentSong, setCurrentSong] = useRecoilState(currentSongState);
+
+    const [index_song , setSongIndex] = useRecoilState(index_song_list); 
+    const [nav_state_index , setNavState] = useRecoilState(nav_state); 
+    const [user_track_list, setUserTrack] = useRecoilState(user_tracks);
+    const [search_track_list , setSearchTrack] = useRecoilState(search_tracks); 
     // React Hooks ----------------------------- END
 
     const formatTime = (time) => {
@@ -115,6 +124,80 @@ function SongPlayer()
         setisPlaying(!isPlaying);
     };
 
+    const handlePrevTrack = () => {
+        let inx = index_song
+        let song; 
+        if(nav_state_index == 0){ //home
+            if(inx == 0)
+            {
+                inx = search_track_list.length - 1; 
+            }
+            else
+            {
+                inx = inx - 1; 
+            }
+            song = search_track_list[inx]
+
+        }else if (nav_state_index == 1){ //my library
+            if(inx == 0)
+            {
+                inx = user_track_list.length - 1; 
+            }
+            else
+            {
+                inx = inx - 1; 
+            }
+            song = user_track_list[inx]
+        }
+
+        setSongIndex(inx); 
+
+        setCurrentSong({
+            title: song.title,
+            artist: song.artist,
+            poster: song.img,
+            song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
+        })
+        
+        setisPlaying(false); 
+    }
+
+    const handleNextTrack = () => {
+        let inx = index_song
+        let song; 
+        if(nav_state_index == 0){ //home
+            if(inx == search_track_list.length - 1)
+            {
+                inx = 0; 
+            }
+            else
+            {
+                inx = inx + 1; 
+            }
+            song = search_track_list[inx]
+
+        }else if (nav_state_index == 1){ //my library
+            if(inx == user_track_list.length - 1)
+            {
+                inx = 0; 
+            }
+            else
+            {
+                inx = inx + 1; 
+            }
+            song = user_track_list[inx]
+        }
+
+        setSongIndex(inx); 
+
+        setCurrentSong({
+            title: song.title,
+            artist: song.artist,
+            poster: song.img,
+            song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
+        })
+        setisPlaying(false)
+    }
     const volumeChange = (e) => {
         const newVolume = e.target.value / 100;
         setVolume(newVolume);
@@ -146,13 +229,13 @@ function SongPlayer()
             </h5>
             <IconContext.Provider value={{className:'icons'}}>
                 <BsMusicNoteBeamed />
-                <MdArrowBackIosNew />
+                <MdArrowBackIosNew onClick={handlePrevTrack} />
                 {isPlaying ? (
                     <MdPause id="play-btn" onClick={handlePlayClick}/>) 
                     : (
                         <MdPlayArrow id="play-btn" onClick={handlePlayClick}/>
                     )}
-                <MdArrowForwardIos />
+                <MdArrowForwardIos onClick={handleNextTrack}/>
                 <RxDownload id="download-btn"/>
             </IconContext.Provider>
             

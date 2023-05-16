@@ -35,3 +35,18 @@ export const isPlayingState = atom({
     key : "playing", 
     default : false
 })
+
+export const search_tracks = atom({
+    key : "search tracks", 
+    default : []
+})
+
+export const index_song_list = atom({
+    key : "index song list", 
+    default : 0
+})
+
+export const nav_state = atom({
+    key : "nav state", 
+    default : 0
+})

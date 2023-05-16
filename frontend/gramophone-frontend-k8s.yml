@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gramophone-backend-deployment
+  name: gramophone-frontend-deployment
   namespace: default
 spec:
   replicas: 1
   selector: 
     matchLabels:
-      app: gramophone-backend
+      app: gramophone-frontend
   template: 
     metadata:
       labels:
-        app: gramophone-backend
+        app: gramophone-frontend
     spec:
       dnsPolicy: Default
       containers:
-        - name: gramophone-backend
-          image: gramophone/gramophone_backend:latest
+        - name: gramophone-frontend
+          image: gramophone/gramophone_frontend:latest
           ports:
             - containerPort: 8000
           volumeMounts:
@@ -30,14 +30,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gramophone-backend-service
+  name: gramophone-frontend-service
   namespace: default
 spec:
   type: NodePort
   selector:
-    app: gramophone-backend
+    app: gramophone-frontend
   ports:
     - protocol: TCP
-      port: 8000
-      targetPort: 8000
-      nodePort: 12700
+      port: 3000
+      targetPort: 3000
+      nodePort : 30000

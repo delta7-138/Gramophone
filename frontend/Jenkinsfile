@@ -36,15 +36,17 @@ pipeline {
                sh 'docker rmi -f gramophone/gramophone_frontend:latest'
             }
         }
-//         stage('Deploy and Run Image') {
-//             steps {
-//                 ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: './ansible/inventory', playbook: './ansible/playbook.yml', sudoUser: null
-//             }
-//         }
+        stage('Deploy and Run Image') {
+            steps{
+                    dir("frontend"){
+                            ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: './inventory', playbook: './gramophone-frontend-playbook.yml', sudoUser: null
+                        }
+                    }
+         }
     }
-//       post {
-//             always {
-//                 sh 'docker logout'
-//             }
-//         }
+      post {
+            always {
+                sh 'docker logout'
+            }
+        }
 }

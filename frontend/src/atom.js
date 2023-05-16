@@ -20,3 +20,18 @@ export const prevPlaylistState = atom({
     key: 'prevPlaylistState',
     default: null // Initial value for prev_playlist
 });
+
+export const user_tracks = atom({
+    key: 'user_tracks', 
+    default : [], 
+})
+
+export const curr_track_cover = atom({
+    key : "curr_track_cover", 
+    default : ""
+})
+
+export const isPlayingState = atom({
+    key : "playing", 
+    default : false
+})

@@ -6,6 +6,74 @@ const mongodb = require('mongodb');
 const database_uri = process.env.CONNECTION_URI; 
 
 
+const getTrackCover = ((req , res) => {
+    verifyToken(req.param("accessToken"))
+    .then(token => {
+        User.findById(token.id)
+        .then(_ => {
+            Track.findById(new mongoose.mongo.ObjectId(req.param("id")))
+            .then(track => {
+                mongoose.connect(database_uri)
+                let bucket = new mongodb.GridFSBucket(mongoose.connection , {
+                    bucketName : 'fs'
+                })
+
+
+                console.log(track.trackcover)
+                bucket.openDownloadStreamByName(track.trackcover)
+                .pipe(res)
+                .on('error', function(error) {
+                    console.log("chutiya")
+                    console.log(error)
+                    res.status(500).json(error)
+                }).
+                on('end', function() {
+                    console.log('done!');
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                message : "Cannot find a user refresh the token", 
+                error : err
+            })
+        }) 
+    })
+})
+
+const getTracksForUser = ((req , res) => {
+    verifyToken(req.body.accessToken)
+    .then(token => {
+        User.findById(token.id)
+        .then(user => {
+            Track.find({artist_id : user.id})
+            .then(tracks => {
+                res.status(200).json(tracks)
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message : "Cannot find any tracks", 
+                    error : err
+                })
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                message : "Cannot find a user refresh the token", 
+                error : err
+            })
+        })
+    })
+    .catch(err => {
+        res.status(500).json({
+            message : "Invalid token", 
+            error : err
+        })
+    })
+})
 
 const getTracks = ((_ , res) => {
     Track.find({})
@@ -99,27 +167,50 @@ const createTrack = ((req , res) => {
 })
 
 const downloadTrack = ((req , res) => {
-    verifyToken(req.body.accessToken)
+    verifyToken(req.param('accessToken'))
     .then(tok => {
         console.log(tok.id)
         User.findOne({id : tok.id})
         .then(_ => {
-            Track.findOne({name : req.body.name})
+            Track.findById(new mongoose.mongo.ObjectId(req.param('id')))
             .then(track => {
                 mongoose.connect(database_uri)
                 let bucket = new mongodb.GridFSBucket(mongoose.connection , {
                     bucketName : 'fs'
                 }) 
                 console.log(track.mimeType)
-                res.status(200)
-                res.set({
-                    "Content-Type" : track.mimeType, 
-                    "Transfer-Encoding" : "chunked"
-                })
-                console.log(track)
-                console.log(track.filename)
-                console.log(bucket)
-                bucket.openDownloadStreamByName(track.filename).
+                if (req.headers.range) {
+                    var range = req.headers.range;
+                    var parts = range.replace(/bytes=/, "").split("-");
+                    var partialstart = parts[0];
+                    var partialend = parts[1];
+                    mongoose.connection.collection("fs.files").find({filename : track.filename}).toArray()
+                    .then(files => {
+                       const total = files[0].length
+
+                        console.log(total)
+                
+                        var start = parseInt(partialstart, 10);
+                        var end = partialend ? parseInt(partialend, 10) : total-1;
+                        var chunksize = (end-start)+1;
+                        res.set({
+                            'Content-Range': 'bytes ' + start + '-' + end + '/' + total,
+                            'Accept-Ranges': 'bytes', 'Content-Length': chunksize,
+                            'Content-Type': 'audio/mpeg'
+                        })
+                        res.status(206)
+                        bucket.openDownloadStreamByName(track.filename , {start : start , end : end})
+                        .pipe(res)
+                    }
+                    )
+                }else{
+                    res.status(200)
+                    res.set({
+                        "Accept-Ranges" : "bytes", 
+                        "Content-Type" : track.mimeType, 
+                        "Transfer-Encoding" : "chunked"
+                    })
+                    bucket.openDownloadStreamByName(track.filename).
                     pipe(res).
                     on('error', function(error) {
                         console.log(error)
@@ -128,6 +219,7 @@ const downloadTrack = ((req , res) => {
                     on('end', function() {
                         console.log('done!');
                     });
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -155,6 +247,8 @@ const downloadTrack = ((req , res) => {
 
 
 module.exports = {
+    getTrackCover, 
+    getTracksForUser, 
     getTracks, 
     getTracksByName, 
     getTracksByArtistName, 

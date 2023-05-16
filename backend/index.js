@@ -22,9 +22,8 @@ database.once('connected' , (connected) => {
 }); 
 
 //setup express middleware 
-app.use(express.json()); 
 app.use(cors()); 
-
+app.use(express.json()); 
 app.use(bodyParser.urlencoded({
     extended: true
   }));
@@ -32,7 +31,6 @@ app.use(bodyParser.urlencoded({
 const {UserRouter} = require("./Routes/UserRoute"); 
 const {TrackRouter} = require("./Routes/TrackRoute"); 
 const {AlbumRouter} = require("./Routes/AlbumRoute"); 
-const Album = require('./Schemas/Album');
 
 app.use('/api/users/' , UserRouter); 
 app.use('/api/tracks/' , TrackRouter);  
@@ -41,6 +39,5 @@ app.use('/api/albums/' , AlbumRouter)
 app.listen(5000 , () =>{
     console.log("Server listening on 5000")
 }); 
-
 
 

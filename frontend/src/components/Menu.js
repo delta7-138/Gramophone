@@ -8,7 +8,16 @@ import { AiOutlineCaretRight, AiOutlineCaretLeft } from "react-icons/ai"
 import { useState, useRef } from "react";
 import { useRecoilState } from "recoil"
 import { currentSongState } from "../atom"
+import { user_tracks } from "../atom"
+import { curr_track_cover } from "../atom"
+import axios from "axios";
+import { isPlayingState } from "../atom";
 
+
+const url_root = 'http://localhost:5000'
+
+
+ 
 const CreateTrackForm = ({ onCancel }) => {
     const [songName, setSongName] = useState('');
     const [songPoster, setSongPoster] = useState(null);
@@ -20,6 +29,33 @@ const CreateTrackForm = ({ onCancel }) => {
       console.log('Song Name:', songName);
       console.log('Song Poster:', songPoster);
       console.log('Song File:', songFile);
+
+      const FormData = require('form-data');
+      let data = new FormData();
+
+        data.append('accessToken', localStorage.getItem("gram-jwt-token"));
+        data.append('track', songFile);
+        data.append('cover', songPoster);
+        data.append('name', songName);
+
+        let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: url_root + '/api/tracks/createTrack',
+        headers: { 
+            'Content-Type' : 'multipart/form-data'
+        },
+        data : data
+        };
+
+        axios.request(config)
+        .then((response) => {
+            console.log(response.data)
+            alert("track created!")
+        })
+        .catch((error) => {
+        console.log(error);
+        });
       // Reset the form
       setSongName('');
       setSongPoster(null);
@@ -106,6 +142,8 @@ const CreateTrackForm = ({ onCancel }) => {
       console.log('Playlist Name:', playlistName);
       console.log('Playlist Poster:', playlistPoster);
       console.log('Songs:', songs);
+
+
       // Reset the form
       setPlaylistName('');
       setPlaylistPoster(null);
@@ -181,13 +219,98 @@ const CreateTrackForm = ({ onCancel }) => {
 
 
 
+
 function Menu()
 {
-    const pop_songs = [];
-    for(let i = 1; i < 15; i++ )
-    {
-        pop_songs.push({'title':'My Song'+i.toString(), 'artist':'artist'+i.toString(), 'img':myImg})
+    //home pop songs - search results
+    //my library pop songs - query from db
+    
+    const [curr_cover , setTrackCover] = useRecoilState(curr_track_cover)
+    const [pop_songs , setPopSongs] = useRecoilState(user_tracks)
+
+    function blobToBase64(blob , track_id) {
+        return new Promise((resolve, _) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            console.log(reader.result)
+            setTrackCover(reader.result)
+            resolve(reader.result)
+          };
+          reader.readAsDataURL(blob);
+        });
     }
+    const download_track_cover = (track_id , trackcover_type) => {
+        let response_text; 
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    
+    
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("accessToken", localStorage["gram-jwt-token"]);
+        urlencoded.append("id", track_id);
+    
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+        };
+    
+    
+        fetch("http://localhost:5000/api/tracks/trackcover", requestOptions)
+        .then(response => response.blob())
+        .then(result => {
+            blobToBase64(result)
+            .then(dataUrl => {
+            })
+        })
+        .catch(error => console.log('error', error));
+    }
+    
+
+    const get_user_tracks = () => {
+        let songs = []; 
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("accessToken", localStorage["gram-jwt-token"]);
+    
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+        };
+    
+        fetch("http://localhost:5000/api/tracks/usertracks", requestOptions)
+        .then(response => response.json())
+        .then((response) => {
+            for(var i = 0; i<response.length; i++)
+            {
+                //download_track_cover(response[i]._id , response[i].trackcover_type)
+                const cover_url = "http://localhost:5000/api/tracks/trackcover?accessToken=" + localStorage["gram-jwt-token"] + "&id=" + response[i]._id
+                songs.push({'title': response[i].name, 'artist':response[i].artist_name, 'img':cover_url , 'track_id' : response[i]._id})
+            }
+            console.log(songs)
+            setPopSongs(songs)
+        })
+        .catch((error) => {
+        console.log(error);
+        });
+
+    }
+
+    const [isPlaying , setIsPlaying] = useRecoilState(isPlayingState)
+    
+
+    
+    let home_search_tracks = []; 
+   
+    // for(let i = 1; i < 15; i++ )
+    // {
+    //     pop_songs.push({'title':'My Song'+i.toString(), 'artist':'artist'+i.toString(), 'img':myImg})
+    // }
 
     const pop_artists = [];
     for(let i = 1; i < 15; i++ )
@@ -197,7 +320,8 @@ function Menu()
 
     // react hooks --------------------------- START
     const [search,setSearch] = useState('');
-    const handleSearchChange = (event) => {
+    const handleSearchChange = (event) => { //every time value changes the search atom changes
+        //every time it changes send an axios request to search 
         setSearch(event.target.value);
     };
 
@@ -261,6 +385,7 @@ function Menu()
         setwhichNav(0);
     };
     const toMyLib = () => {
+        get_user_tracks()
         setActive(1)
         setwhichNav(1);
     };
@@ -282,12 +407,15 @@ function Menu()
         document.getElementById("pa").scrollLeft -= 330;
     };
     // ----------------------------------- end
-    const playSong = () => {
+    const playSong = (id) => {
+        setIsPlaying(false)
+        console.log(id)
+        const song = pop_songs[id]
         setCurrentSong({
-            title: 'Blinding Lights',
-            artist: 'The Weekend',
-            poster: myImg,
-            song: song
+            title: song.title,
+            artist: song.artist,
+            poster: song.img,
+            song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
         })
     };
 
@@ -388,7 +516,7 @@ function Menu()
                             <li key={index} className="song-item">
                                 <div className="song-img">
                                     <img src={item.img} alt="" />
-                                    <div className="song-play-btn">
+                                    <div className="song-play-btn" onClick = {() => playSong(index)}>
                                         <BsPlayCircleFill id ="1"/>
                                     </div>
                                 </div>
@@ -455,5 +583,7 @@ function Menu()
         </div>
     )
 }
+
+
 
 export default Menu;

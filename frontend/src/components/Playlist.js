@@ -27,6 +27,11 @@ function Playlist()
     const playlist2 = {'name': 'Playlist2', 'songs': [], 'private':false, 'created by':'krishna'};
     const playlist3 = {'name': 'Recommended', 'songs':[]};
 
+    //poster and song to begotten
+    //axios call here
+    //song is not the song but track object 
+    //song should stream / download only on playing
+    
     for(let i = 1; i < 9; i++ )
     {
         playlist1.songs.push({ 'title':'My Song'+i.toString(), 

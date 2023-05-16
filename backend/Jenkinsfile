@@ -23,30 +23,29 @@ pipeline {
         // }
         stage('Build Docker Images') {
              steps {
-                bat """
-                cd backend
-                docker build -t gramophone/gramophone_backend:latest
-                """.stripIndent().trim()
+		sh 'env'
+		     sh 'echo ${CONNECTION_URI}; echo ${jwt_config}'
+		     sh 'cd backend; docker build -t gramophone/gramophone_backend:latest --build-arg CONNECTION_URI=${CONNECTION_URI} --build-arg jwt_config=${jwt_config} .'
              }
         }
 
         stage('Publish Docker Images') {
             steps {
-                withDockerRegistry([ credentialsId: "DockerJenkins", url: "" ]) {
-                    sh 'docker push premsai1503/majorProject_backend:latest'
+                withDockerRegistry([ credentialsId: "gramophonedocker", url: "" ]) {
+                    sh 'docker push gramophone/gramophone_backend:latest'
                 }
             }
         }
         stage('Clean Docker Images') {
             steps {
-               sh 'docker rmi -f premsai1503/majorProject_backend:latest'
+               sh 'docker rmi -f gramophone/gramophone_backend:latest'
             }
         }
-        stage('Deploy and Run Image') {
-            steps {
-                ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: './ansible/inventory', playbook: './ansible/playbook.yml', sudoUser: null
-            }
-        }
+//         stage('Deploy and Run Image') {
+//             steps {
+//                 ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: './ansible/inventory', playbook: './ansible/playbook.yml', sudoUser: null
+//             }
+//         }
     }
       post {
             always {

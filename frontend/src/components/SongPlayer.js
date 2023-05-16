@@ -10,6 +10,7 @@ import { useState, useEffect, useRef } from "react";
 
 import { useRecoilState } from 'recoil';
 import { currentSongState } from '../atom';
+import { isPlayingState } from "../atom";
 
 function SongPlayer()
 {
@@ -22,7 +23,7 @@ function SongPlayer()
 
     // React Hooks ----------------------------- START
     const songRef = useRef(null);
-    const [isPlaying, setisPlaying] = useState(false);
+    const [isPlaying, setisPlaying] = useRecoilState(isPlayingState);
     const [isMute, setisMute] = useState(false);
 
     const [current_time,setCurrentTime] = useState(0);
@@ -120,9 +121,13 @@ function SongPlayer()
         document.getElementById("currentSong").volume = newVolume;
     };
 
+    console.log(currentSong.song)
+
     return (
         <div className="player">
-            <audio id="currentSong" src={currentSong.song}
+            <audio id="currentSong" src={currentSong.song} //this is where we download the song just before this
+                                                            //or pipe the streaming response 
+                                                           //preferrably download for now
                                     ref={songRef}
                                     onLoadedMetadata={loadSong}
                                     onTimeUpdate={timeUpdate}

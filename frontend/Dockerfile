@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package*.json /app/
 
 #Run command npm install to install packages
-RUN npm install
+RUN npm install --force
 
 #copy all the folder contents from local to container
 COPY . .

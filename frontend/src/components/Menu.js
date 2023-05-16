@@ -45,7 +45,7 @@ const CreateTrackForm = ({ onCancel }) => {
         let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: url_root + '/api/tracks/createTrack',
+        url: '/api/tracks/createTrack',
         headers: { 
             'Content-Type' : 'multipart/form-data'
         },
@@ -256,13 +256,13 @@ function Menu()
         redirect: 'follow'
         };
     
-        fetch("http://localhost:5000/api/tracks/usertracks", requestOptions)
+        fetch("http://gramophone-backend-service:8000/api/tracks/usertracks", requestOptions)
         .then(response => response.json())
         .then((response) => {
             for(var i = 0; i<response.length; i++)
             {
                 //download_track_cover(response[i]._id , response[i].trackcover_type)
-                const cover_url = "http://localhost:5000/api/tracks/trackcover?accessToken=" + localStorage["gram-jwt-token"] + "&id=" + response[i]._id
+                const cover_url = "http://gramophone-backend-service:8000/api/tracks/trackcover?accessToken=" + localStorage["gram-jwt-token"] + "&id=" + response[i]._id
                 songs.push({'title': response[i].name, 'artist':response[i].artist_name, 'img':cover_url , 'track_id' : response[i]._id})
             }
             console.log(songs)
@@ -304,14 +304,14 @@ function Menu()
         redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/api/tracks/search?accessToken=" + localStorage["gram-jwt-token"] + "&searchTerm=" + search , requestOptions)
+        fetch("http://gramophone-backend-service:8000/api/tracks/search?accessToken=" + localStorage["gram-jwt-token"] + "&searchTerm=" + search , requestOptions)
         .then(response => response.json())
         .then((response) => {
             for(var i = 0; i<response.length; i++)
             {
                 let song = response[i];
                 console.log(song.name)
-                const cover_url = "http://localhost:5000/api/tracks/trackcover?accessToken=" + localStorage["gram-jwt-token"] + "&id=" + song._id
+                const cover_url = "http://gramophone-backend-service:8000/api/tracks/trackcover?accessToken=" + localStorage["gram-jwt-token"] + "&id=" + song._id
                 songs.push({'title' : song.name ,'artist' : song.artist_name  , 'img' : cover_url , 'track_id' : song._id})
             }
             setSearchList(songs)
@@ -440,7 +440,7 @@ function Menu()
                 title: song.title,
                 artist: song.artist,
                 poster: song.img,
-                song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
+                song: 'http://gramophone-backend-service:8000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
             })
         }
         else

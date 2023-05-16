@@ -156,7 +156,7 @@ function SongPlayer()
             title: song.title,
             artist: song.artist,
             poster: song.img,
-            song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
+            song: 'http://gramophone-backend-service:8000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
         })
         
         setisPlaying(false); 
@@ -194,7 +194,7 @@ function SongPlayer()
             title: song.title,
             artist: song.artist,
             poster: song.img,
-            song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
+            song: 'http://gramophone-backend-service:8000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
         })
         setisPlaying(false)
     }

@@ -57,7 +57,7 @@ function SignUpForm(props)
         {
             console.log("Creating the user");
 
-            axios.post('http://localhost:5000/api/users/signUp', 
+            axios.post('/api/users/signUp', 
             {
                 name : name,
                 email : username, 
@@ -248,7 +248,7 @@ function SignInForm(props)
         event.preventDefault();
         console.log("Logging In");
 
-        axios.post('http://localhost:5000/api/users/login', 
+        axios.post('/api/users/login', 
         {
             email : username,
             password : password 

@@ -35,3 +35,8 @@ export const isPlayingState = atom({
     key : "playing", 
     default : false
 })
+
+export const search_tracks = atom({
+    key : "search tracks", 
+    default : []
+})

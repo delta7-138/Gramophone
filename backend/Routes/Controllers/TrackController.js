@@ -7,11 +7,12 @@ const database_uri = process.env.CONNECTION_URI;
 
 
 const getTrackBySearch = ((req , res) => {
-    verifyToken(req.body.accessToken)
+    console.log(req.param)
+    verifyToken(req.param('accessToken'))
     .then(token_id => {
         User.findById(token_id.id)
         .then(_ => {
-            let track_term = '^' + req.body.searchTerm 
+            let track_term = '^' + req.param('searchTerm')
             let re = new RegExp(track_term); 
             console.log(track_term)
             console.log(re)
@@ -27,15 +28,17 @@ const getTrackBySearch = ((req , res) => {
             })
         })
         .catch(err => {
+            console.log("cannot find user")
             res.status(500).json({
                 message : "Cannot find user refresh token", 
                 error : err
             })
         })
     })
-    .catch(err => res.status(500).json({
+    .catch(err => {
+        res.status(500).json({
         message : "token error", 
-        err : err}))
+        err : err})})
 })
 
 const getTrackCover = ((req , res) => {

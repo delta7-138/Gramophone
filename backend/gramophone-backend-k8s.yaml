@@ -33,7 +33,7 @@ metadata:
   name: gramophone-backend-service
   namespace: default
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: gramophone-backend
   ports:

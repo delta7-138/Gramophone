@@ -11,9 +11,9 @@
     - name: "Clean up existing deployments"
       kubernetes.core.k8s:
         state: absent
-        definition: "{{ lookup('file', '../kubernetes/gramophone-backend-k8s.yaml')}}"
+        definition: "{{ lookup('file', './gramophone-backend-k8s.yaml')}}"
 
     - name: "Deploy"
       kubernetes.core.k8s:
         state: present
-        definition: "{{ lookup('file', '../kubernetes/gramophone-backend-k8s.yaml')}}"
+        definition: "{{ lookup('file', './gramophone-backend-k8s.yaml')}}"

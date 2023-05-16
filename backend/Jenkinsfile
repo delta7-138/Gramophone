@@ -42,8 +42,8 @@ pipeline {
             }
         }
         stage('Deploy and Run Image') {
+		steps{
 		dir("backend"){
-            steps {
                 ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: './inventory', playbook: './gramophone-backend-playbook.yml', sudoUser: null
             }
 		}

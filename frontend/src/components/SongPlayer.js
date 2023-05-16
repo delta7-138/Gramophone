@@ -2,7 +2,7 @@ import "./songPlayer.css"
 // import myImg from '../assets/login_background.jpg'
 // import song from "../assets/hxh.mp3"
 import { IconContext } from "react-icons";
-import { BsMusicNoteBeamed, BsPlusCircleFill} from "react-icons/bs"
+import { BsMusicNoteBeamed } from "react-icons/bs"
 import { RxDownload } from "react-icons/rx"
 import { FaVolumeUp, FaVolumeMute } from "react-icons/fa"
 import { MdArrowForwardIos , MdArrowBackIosNew, MdPlayArrow, MdPause } from "react-icons/md"
@@ -127,8 +127,8 @@ function SongPlayer()
     const handlePrevTrack = () => {
         let inx = index_song
         let song; 
-        if(nav_state_index == 0){ //home
-            if(inx == 0)
+        if(nav_state_index === 0){ //home
+            if(inx === 0)
             {
                 inx = search_track_list.length - 1; 
             }
@@ -138,8 +138,8 @@ function SongPlayer()
             }
             song = search_track_list[inx]
 
-        }else if (nav_state_index == 1){ //my library
-            if(inx == 0)
+        }else if (nav_state_index === 1){ //my library
+            if(inx === 0)
             {
                 inx = user_track_list.length - 1; 
             }
@@ -165,8 +165,8 @@ function SongPlayer()
     const handleNextTrack = () => {
         let inx = index_song
         let song; 
-        if(nav_state_index == 0){ //home
-            if(inx == search_track_list.length - 1)
+        if(nav_state_index === 0){ //home
+            if(inx === search_track_list.length - 1)
             {
                 inx = 0; 
             }
@@ -176,8 +176,8 @@ function SongPlayer()
             }
             song = search_track_list[inx]
 
-        }else if (nav_state_index == 1){ //my library
-            if(inx == user_track_list.length - 1)
+        }else if (nav_state_index === 1){ //my library
+            if(inx === user_track_list.length - 1)
             {
                 inx = 0; 
             }
@@ -270,7 +270,7 @@ function SongPlayer()
                 <div className="vol-bar" id="vol" style={{width:(volume*100).toString()+'%'}}></div>
                 <div className="dot" id="vol-dot" style={{left:(volume*100).toString()+'%'}}></div>
             </div>
-            <BsPlusCircleFill id="add-song"/>
+            {/* <BsPlusCircleFill id="add-song"/> */}
         </div>
     );
 }

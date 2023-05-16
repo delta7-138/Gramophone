@@ -1,6 +1,5 @@
 import "./menu.css"
 import profile_pic from "../assets/profile.png"
-import myImg from "../assets/login_background.jpg"
 import artPic from "../assets/blw.png"
 import blindingsong from "../assets/Blinding_Lights.mp3"
 import { BsSearch, BsPlayCircleFill } from "react-icons/bs"
@@ -9,13 +8,15 @@ import { useState, useRef } from "react";
 import { useRecoilState } from "recoil"
 import { currentSongState } from "../atom"
 import { user_tracks } from "../atom"
-import { curr_track_cover } from "../atom"
+// import { curr_track_cover } from "../atom"
 import axios from "axios";
 import { isPlayingState } from "../atom";
 import { search_tracks } from "../atom";
 import { nav_state } from "../atom"
 import { index_song_list } from "../atom"
 import { currentPlaylistState } from "../atom"
+
+import { useNavigate } from "react-router-dom"
 
 
 const url_root = 'http://localhost:5000'
@@ -228,8 +229,9 @@ function Menu()
 {
     //home pop songs - search results
     //my library pop songs - query from db
+    const navigate = useNavigate();
     
-    const [curr_cover , setTrackCover] = useRecoilState(curr_track_cover)
+    // const [curr_cover , setTrackCover] = useRecoilState(curr_track_cover)
     const [pop_songs , setPopSongs] = useRecoilState(user_tracks)
     const [search_list, setSearchList] = useRecoilState(search_tracks)
     const [isPlaying , setIsPlaying] = useRecoilState(isPlayingState)
@@ -426,10 +428,10 @@ function Menu()
         console.log(id)
         let song; 
         if(nav >= 0){
-            if(nav == 1){ 
+            if(nav === 1){ 
                 song = pop_songs[id]
             }
-            else if(nav == 0){ 
+            else if(nav === 0){ 
                 song = search_list[id]
             }
 
@@ -453,6 +455,10 @@ function Menu()
             })
         }
     };
+    const logout = () => {
+        localStorage["gram-jwt-token"] = null;
+        navigate("/");
+    }
 
     return (
         <div className="menu-side">
@@ -472,11 +478,11 @@ function Menu()
                 </div>
 
                 <div className="user-profile">
-                    <img src={profile_pic} alt="" onClick={handleProfileClick}/>
+                    <img style={{cursor:"pointer"}} src={profile_pic} alt="" onClick={handleProfileClick}/>
                     {openProfile ? (
                         <div className="profile-menu">
-                            <h3>Settings</h3>
-                            <h3 id="logout">Logout</h3>
+                            {/* <h3>Settings</h3> */}
+                            <h3 onClick={logout} id="logout">Logout</h3>
                         </div>
                         ) : (
                         <></>

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gramophone-backend-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: gramophone-backend
+  template: 
+    metadata:
+      labels:
+        app: gramophone-backend
+    spec:
+      dnsPolicy: Default
+      containers:
+        - name: gramophone-backend
+          image: gramophone/gramophone_backend:latest
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: data
+              mountPath: /app/logs/
+      volumes:
+      - name: data
+        hostPath:
+          path: /home/docker/logs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gramophone-backend-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: gramophone-backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

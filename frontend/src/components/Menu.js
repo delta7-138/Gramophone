@@ -2,7 +2,7 @@ import "./menu.css"
 import profile_pic from "../assets/profile.png"
 import myImg from "../assets/login_background.jpg"
 import artPic from "../assets/blw.png"
-import song from "../assets/Blinding_Lights.mp3"
+import blindingsong from "../assets/Blinding_Lights.mp3"
 import { BsSearch, BsPlayCircleFill } from "react-icons/bs"
 import { AiOutlineCaretRight, AiOutlineCaretLeft } from "react-icons/ai"
 import { useState, useRef } from "react";
@@ -13,6 +13,9 @@ import { curr_track_cover } from "../atom"
 import axios from "axios";
 import { isPlayingState } from "../atom";
 import { search_tracks } from "../atom";
+import { nav_state } from "../atom"
+import { index_song_list } from "../atom"
+import { currentPlaylistState } from "../atom"
 
 
 const url_root = 'http://localhost:5000'
@@ -230,6 +233,9 @@ function Menu()
     const [pop_songs , setPopSongs] = useRecoilState(user_tracks)
     const [search_list, setSearchList] = useRecoilState(search_tracks)
     const [isPlaying , setIsPlaying] = useRecoilState(isPlayingState)
+    const [currNavState , setNavState] = useRecoilState(nav_state)
+    const [index_song , setSongIndex] = useRecoilState(index_song_list)
+    const [currentList, setCurrentList] = useRecoilState(currentPlaylistState);
 
 
    
@@ -318,11 +324,13 @@ function Menu()
     
     const handleSearchChange = (event) => { //every time value changes the search atom changes
         //every time it changes send an axios request to search 
-        setSearch(event.target.value);
         get_search_tracks(); 
+        setSearch(event.target.value);
     };
 
-
+    const handleSearchResult = () => {
+        get_search_tracks(); 
+    }
 
 
 
@@ -350,6 +358,7 @@ function Menu()
         setDisplayForm(null);
         setShowPlusButtons(true);
     };
+
     // react hooks --------------------------- END
 
     // popular songs scrolling
@@ -382,11 +391,15 @@ function Menu()
     };
 
     const toHome = () => {
+        let search_playlist = {'name': 'Search Results', 'songs':search_list}
+        setCurrentList({...search_playlist})
         setActive(0);
         setwhichNav(0);
     };
     const toMyLib = () => {
         get_user_tracks()
+        let user_playlist = {'name' : 'User Tracks' , 'songs':pop_songs}
+        setCurrentList({...user_playlist})
         setActive(1)
         setwhichNav(1);
     };
@@ -412,19 +425,33 @@ function Menu()
         setIsPlaying(false)
         console.log(id)
         let song; 
-        if(nav == 1){ 
-            song = pop_songs[id]
+        if(nav >= 0){
+            if(nav == 1){ 
+                song = pop_songs[id]
+            }
+            else if(nav == 0){ 
+                song = search_list[id]
+            }
+
+            setNavState(nav); 
+            setSongIndex(id)
+            
+            setCurrentSong({
+                title: song.title,
+                artist: song.artist,
+                poster: song.img,
+                song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
+            })
         }
-        else if(nav == 0){ 
-            song = search_list[id]
+        else
+        {
+            setCurrentSong({
+                title: "Blinding Lights",
+                artist: "The Weeknd",
+                poster: artPic, 
+                song: blindingsong
+            })
         }
-        
-        setCurrentSong({
-            title: song.title,
-            artist: song.artist,
-            poster: song.img,
-            song: 'http://localhost:5000/api/tracks/downloadTrack?accessToken=' + localStorage["gram-jwt-token"] + "&id=" + song.track_id
-        })
     };
 
     return (
@@ -437,7 +464,7 @@ function Menu()
                 </ul>
                 
                 <div className="search-bar">
-                    <BsSearch id="search-icon"/>
+                    <BsSearch id="search-icon" onClick = {handleSearchResult}/>
                     <input type={"text"} value={search} 
                             onChange={handleSearchChange}
                             placeholder="Search.." id=""
@@ -461,7 +488,7 @@ function Menu()
                 <p>by The Weekend</p>
                 <p>Most Listened song on Gramophone</p>
                 <div className="content-btns">
-                    <button id = "listen-now" onClick={playSong}>Listen Now</button>
+                    <button id = "listen-now" onClick={() => playSong(-1 , -1)}>Listen Now</button>
                     <button id = "add-playlist">Add to Playlist</button>
                 </div>
             </div>
